@@ -318,8 +318,9 @@ public class CPlayRoomUI : MonoBehaviour, IMessageReceiver {
 	{
 		Vector3 position = this.floor_slot_position[slot.ui_slot_position];
 		int stacked_count = slot.get_card_count();
-		position.x += (stacked_count * 7.0f);
-		position.y -= (stacked_count * 3.0f);
+		//ㅂ x=7f / y=3f에서 변경
+		position.x += (stacked_count * 0.4f);
+		position.y -= (stacked_count * 0.03f);
 		return position;
 	}
 

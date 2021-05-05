@@ -43,8 +43,8 @@ public class CPlayerCardPosition : MonoBehaviour
 
 
 	public Vector3 get_floor_position(int card_count, PAE_TYPE pae_type)
-	{
-		return this.floor_positions[pae_type] + new Vector3(card_count * 10, 0, 0);
+	{//ㅂ x=10에서 변경
+		return this.floor_positions[pae_type] + new Vector3(card_count * 0.5f, 0, 0);
 	}
 
 
