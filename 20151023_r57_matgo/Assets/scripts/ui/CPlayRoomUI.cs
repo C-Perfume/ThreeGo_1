@@ -88,8 +88,8 @@ public class CPlayRoomUI : MonoBehaviour, IMessageReceiver {
 		this.player_card_manager.Add(new CPlayerCardManager());
 
 		this.player_info_slots = new List<CPlayerInfoSlot>();
-		this.player_info_slots.Add(transform.Find("player_info_01").GetComponent<CPlayerInfoSlot>());
-		this.player_info_slots.Add(transform.Find("player_info_02").GetComponent<CPlayerInfoSlot>());
+		this.player_info_slots.Add(GameObject.Find("player_info_01").GetComponent<CPlayerInfoSlot>());
+		this.player_info_slots.Add(GameObject.Find("player_info_02").GetComponent<CPlayerInfoSlot>());
 
 		CPacketBufferManager.initialize(1);
 		this.hwatoo_sprites = Resources.LoadAll<Sprite>("images/allcard");
@@ -319,7 +319,7 @@ public class CPlayRoomUI : MonoBehaviour, IMessageReceiver {
 		Vector3 position = this.floor_slot_position[slot.ui_slot_position];
 		int stacked_count = slot.get_card_count();
 		//ㅂ x=7f / y=3f에서 변경
-		position.x += (stacked_count * 0.4f);
+		position.x += (stacked_count * 0.1f);
 		position.y -= (stacked_count * 0.03f);
 		return position;
 	}
