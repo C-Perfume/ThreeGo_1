@@ -149,6 +149,7 @@ public class CGostopEngine
 			// 바닥에 4장.
 			for (byte i = 0; i < 4; ++i)
 			{
+				if (i == 0){ SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg); }
 				CCard card = pop_front_card();
 				this.distributed_floor_cards.Add(card);
 
@@ -159,6 +160,7 @@ public class CGostopEngine
 			// 1p에게 5장.
 			for (int i = 0; i < 5; ++i)
 			{
+				if (i == 0) { SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg); }
 				CCard card = pop_front_card();
 				this.distributed_players_cards[player_index].Add(card);
 
@@ -170,6 +172,7 @@ public class CGostopEngine
 			// 2p에게 5장.
 			for (int i = 0; i < 5; ++i)
 			{
+				if (i == 0) { SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg); }
 				CCard card = pop_front_card();
 				this.distributed_players_cards[player_index].Add(card);
 
@@ -218,7 +221,7 @@ public class CGostopEngine
 		return 0;
 	}
 
-
+	//시작시 보너스카드 
 	void check_bonus_cards()
 	{
 		List<CCard> bonus_cards = this.floor_manager.pop_bonus_cards();
@@ -312,6 +315,15 @@ public class CGostopEngine
 								this.card_from_player.number);
 							this.shaking_cards.Add(this.card_from_player);
 						}
+						///그냥 냐려 놓을떄 //
+						else
+						{
+							SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_tuk);
+						}
+					}
+					else
+						{
+						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_tuk);
 					}
 				}
 				break;
@@ -345,6 +357,8 @@ public class CGostopEngine
 					}
 					else
 					{
+						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_tuk);
+						
 						// 뒤집이서 뻑이 나오면 못가져갈 수 있으므로 일단 임시변수에 넣어 놓는다.
 						this.cards_to_give_player.Add(this.card_from_player);
 						this.cards_to_give_player.Add(same_cards[0]);
@@ -354,6 +368,8 @@ public class CGostopEngine
 
 			case 2:
 				{
+					SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_jjak);
+					
 					if (same_cards[0].pae_type != same_cards[1].pae_type)
 					{
 						// 카드 종류가 다르다면 플레이어가 한장을 선택할 수 있도록 해준다.
@@ -494,7 +510,8 @@ public class CGostopEngine
 				{
 					// 쪽.
 					this.flipped_card_event_type.Add(CARD_EVENT_TYPE.KISS);
-
+					SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_kiss);
+				
 					this.cards_to_give_player.Clear();
 					this.cards_to_give_player.Add(this.card_from_player);
 					this.cards_to_give_player.Add(this.card_from_deck);
@@ -509,6 +526,7 @@ public class CGostopEngine
 					{
 						// 뻑.
 						this.flipped_card_event_type.Add(CARD_EVENT_TYPE.PPUK);
+						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_pack);
 						get_current_player().plus_ppuk_count();
 
 						// 플레이어에게 주려던 카드를 모두 취소한다.
@@ -516,6 +534,7 @@ public class CGostopEngine
 					}
 					else
 					{
+						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_jjak);
 						this.cards_to_give_player.Add(this.card_from_deck);
 						this.cards_to_give_player.Add(same_cards[0]);
 					}
@@ -528,7 +547,7 @@ public class CGostopEngine
 					{
 						// 따닥.
 						this.flipped_card_event_type.Add(CARD_EVENT_TYPE.DDADAK);
-
+						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ddadak);
 						// 플레이어가 4장 모두 가져간다.
 						this.cards_to_give_player.Clear();
 						for (int i = 0; i < same_cards.Count; ++i)
@@ -542,6 +561,7 @@ public class CGostopEngine
 					}
 					else
 					{
+						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_jjak);
 						if (same_cards[0].pae_type != same_cards[1].pae_type)
 						{
 							// 뒤집었는데 타입이 다른 카드 두장과 같다면 한장을 선택하도록 한다.
@@ -563,6 +583,7 @@ public class CGostopEngine
 				break;
 
 			case 3:
+				SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_eatpack);
 				// 플레이어가 4장 모두 가져간다.
 				for (int i = 0; i < same_cards.Count; ++i)
 				{
@@ -666,12 +687,12 @@ public class CGostopEngine
 			return;
 		}
 
+	    SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_takecakd);
 		for (int i = 0; i < cards.Count; ++i)
 		{
 			attacker.add_card_to_floor(cards[i]);
 			this.other_cards_to_player[next_player].Add(cards[i]);
 			///
-			SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_takecakd);
 		}
 	}
 

@@ -19,6 +19,7 @@ public class SoundManager : MonoBehaviour
     {
         EFT_ssg,
         EFT_jjak,
+        EFT_tuk,
 
         EFT_godori,
         EFT_hongdan,
@@ -27,6 +28,7 @@ public class SoundManager : MonoBehaviour
 
         EFT_kiss,
         EFT_bomb,
+        EFT_ddadak,
         EFT_shaking,
         EFT_pack,
         EFT_eatpack,
@@ -68,5 +70,6 @@ public class SoundManager : MonoBehaviour
     {
         //eftAudio.clip = efts[(int)type];
         eftAudio.PlayOneShot(efts[(int)type]);
+        print(type.ToString());
     }
 }
