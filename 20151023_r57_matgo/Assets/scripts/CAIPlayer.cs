@@ -284,7 +284,8 @@ public class CAIPlayer
 	void ON_ASK_GO_OR_STOP(CPacket msg)
 	{
 		CPacket answer_msg = CPacket.create((short)PROTOCOL.ANSWER_GO_OR_STOP);
-		answer_msg.push((byte)1);		// 0:스톱, 1:고.
+		//ㅂ스톱으로 변경
+		answer_msg.push((byte)0); // 0:스톱, 1:고.
 		this.local_server.on_receive_from_ai(answer_msg);
 	}
 
