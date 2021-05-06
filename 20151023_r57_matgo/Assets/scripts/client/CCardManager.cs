@@ -167,7 +167,7 @@ public class CCardManager
 		return this.cards.Find(obj => obj.is_same(number, pae_type, position));
 	}
 
-
+	/*
 	void TEST_MAKE_SHAKING_CARDS()
 	{
 		this.cards.Clear();
@@ -227,8 +227,6 @@ public class CCardManager
 		this.cards.Add(new CCard(10, PAE_TYPE.PEE, 1));
 		this.cards.Add(new CCard(7, PAE_TYPE.YEOL, 1));
 	}
-
-
 	void TEST_MAKE_KOOKJIN_CARDS()
 	{
 		this.cards.Clear();
@@ -281,8 +279,6 @@ public class CCardManager
 		this.cards.Add(new CCard(5, PAE_TYPE.YEOL, 0));
 		this.cards.Add(new CCard(10, PAE_TYPE.KWANG, 0));
 	}
-
-
 	void TEST_MAKE_BOMB_CARDS()
 	{
 		// 1P 폭탄 패.
@@ -348,8 +344,6 @@ public class CCardManager
 		this.cards.Add(new CCard(9, PAE_TYPE.PEE, 3));
 		this.cards.Add(new CCard(6, PAE_TYPE.PEE, 3));
 	}
-
-
 	void TEST_MAKE_KISS_CARDS()
 	{
 		this.cards.Clear();
@@ -414,8 +408,6 @@ public class CCardManager
 		this.cards.Add(new CCard(9, PAE_TYPE.PEE, 3));
 		this.cards.Add(new CCard(6, PAE_TYPE.PEE, 3));
 	}
-
-
 	void TEST_MAKE_PPUK_CARDS()
 	{
 		this.cards.Clear();
@@ -480,8 +472,6 @@ public class CCardManager
 		this.cards.Add(new CCard(9, PAE_TYPE.PEE, 3));
 		this.cards.Add(new CCard(6, PAE_TYPE.PEE, 3));
 	}
-
-
 	void TEST_MAKE_CLEAN_CARDS()
 	{
 		this.cards.Clear();
@@ -546,8 +536,6 @@ public class CCardManager
 		this.cards.Add(new CCard(9, PAE_TYPE.PEE, 3));
 		this.cards.Add(new CCard(6, PAE_TYPE.PEE, 3));
 	}
-
-
     void make_test_cards()
     {
         // 1P 고도리 획득 패.
@@ -718,6 +706,7 @@ public class CCardManager
 		//this.cards.Add(new CCard(3, PAE_TYPE.YEOL, 0));
     }
 
+	*/
 
     public void fill_to(Queue<CCard> target)
     {
