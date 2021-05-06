@@ -464,6 +464,7 @@ public class CGostopEngine
 		if (this.floor_manager.is_empty())
 		{
 			this.flipped_card_event_type.Add(CARD_EVENT_TYPE.CLEAN);
+			SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_clean);
 			take_cards_from_others(1);
 		}
 	}
