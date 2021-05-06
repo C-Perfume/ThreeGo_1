@@ -302,6 +302,8 @@ public class CGostopEngine
 						if (count_from_hand == 2)
 						{
 							this.card_event_type = CARD_EVENT_TYPE.SHAKING;
+							///
+							SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_shaking);
 							this.player_agents[player_index].plus_shaking_count();
 
 							// 플레이어에게 흔든 카드 정보를 보내줄 때 사용하기 위해서 리스트에 보관해 놓는다.
@@ -322,7 +324,8 @@ public class CGostopEngine
 					if (count_from_hand == 2)
 					{
 						this.card_event_type = CARD_EVENT_TYPE.BOMB;
-
+						///
+						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_bomb);
 						get_current_player().plus_shaking_count();
 
 						// 플레이어가 선택한 카드와, 바닥 카드, 폭탄 카드를 모두 가져 간다.
@@ -374,7 +377,7 @@ public class CGostopEngine
 				{
 					//todo:자뻑인지 구분하여 처리하기.
 					this.card_event_type = CARD_EVENT_TYPE.EAT_PPUK;
-
+					SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_eatpack);
 					// 쌓여있는 카드를 모두 플레이어에게 준다.
 					this.cards_to_give_player.Add(card);
 					for (int i = 0; i < same_cards.Count; ++i)
@@ -666,6 +669,8 @@ public class CGostopEngine
 		{
 			attacker.add_card_to_floor(cards[i]);
 			this.other_cards_to_player[next_player].Add(cards[i]);
+			///
+			SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_takecakd);
 		}
 	}
 
