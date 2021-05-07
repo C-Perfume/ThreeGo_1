@@ -32,15 +32,33 @@ public class SoundManager : MonoBehaviour
         EFT_nagari
     }
 
+    //불필요한 이넘 들 하지만 나중에 파티클을위해 !!3광의 각각을 관리할수도
+    //a: 1광 , b : 3광, c :8광, d :똥광, e : 비광
+    public enum GoState
+    {
+        gang_abc,
+        gang_abd,
+        gang_acd,
+        gang_bcd,
+        gang_abcd,
+        gang_abce,
+        gang_abde,
+        gang_acde,
+        gang_bcde,
+        gang_abcde,
+    }
+
+
     public enum GoCounter
     {
-        EFT_onego,
-        EFT_twogo,
-        EFT_threego,
-        EFT_fourgo,
-        EFT_fivego,
-        EFT_sevengo,
-        EFT_eightgo
+        EFT_onego,//
+        EFT_twogo,//
+        EFT_threego,//
+        EFT_fourgo,//
+        EFT_sixgo,//
+        EFT_fivego,//
+        EFT_sevengo,//
+        EFT_eightgo//
     }
 
     public enum AddPoint
@@ -96,7 +114,6 @@ public class SoundManager : MonoBehaviour
     { 
         print(gocount + "고");
         goAudio.PlayOneShot(go[(int)gocount-1]);
-        //print(gocount.ToString());
     }
 
     public void AddPointer(AddPoint point)
