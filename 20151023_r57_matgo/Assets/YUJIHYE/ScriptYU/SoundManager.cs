@@ -17,23 +17,23 @@ public class SoundManager : MonoBehaviour
     // EFT Á¾·ù
     public enum EFG_TYPE
     {
-        EFT_ssg,
-        EFT_jjak,
-        EFT_tuk,
+        EFT_ssg,//
+        EFT_jjak,//
+        EFT_tuk,//
 
         EFT_godori,
         EFT_hongdan,
         EFT_chongdan,
         EFT_chodan,
 
-        EFT_kiss,
-        EFT_bomb,
-        EFT_ddadak,
-        EFT_shaking,
-        EFT_pack,
-        EFT_eatpack,
-        EFT_clean,
-        EFT_takecakd,
+        EFT_kiss,//
+        EFT_bomb,//
+        EFT_ddadak,//
+        EFT_shaking,//
+        EFT_pack,//
+        EFT_eatpack,//
+        EFT_clean,//
+        EFT_takecakd,//
         EFT_nagari,
 
         EFT_onego,
