@@ -21,11 +21,6 @@ public class SoundManager : MonoBehaviour
         EFT_jjak,//
         EFT_tuk,//
 
-        EFT_godori,
-        EFT_hongdan,
-        EFT_chongdan,
-        EFT_chodan,
-
         EFT_kiss,//
         EFT_bomb,//
         EFT_ddadak,//
@@ -34,14 +29,30 @@ public class SoundManager : MonoBehaviour
         EFT_eatpack,//
         EFT_clean,//
         EFT_takecakd,//
-        EFT_nagari,
+        EFT_nagari
+    }
 
+    public enum GoCounter
+    {
         EFT_onego,
         EFT_twogo,
         EFT_threego,
         EFT_fourgo,
         EFT_fivego,
-        EFT_sixgo
+        EFT_sevengo,
+        EFT_eightgo
+    }
+
+    public enum AddPoint
+    {
+        EFT_godori,
+        EFT_hongdan,
+        EFT_chongdan,
+        EFT_chodan,
+        
+        EFT_threegang,
+        EFT_fourgang,
+        EFT_fivegang,
     }
 
     //BGM 플레이하는 AudioSource
@@ -49,10 +60,18 @@ public class SoundManager : MonoBehaviour
     //EFT 플레이하는 AudioSource
     public AudioSource eftAudio;
 
+    public AudioSource goAudio;
+
+    public AudioSource eventsAudio;
+
     // bgm 파일
     public AudioClip[] bgms;
     // eft 파일
     public AudioClip[] efts;
+
+    public AudioClip[] go;
+
+    public AudioClip[] events;
 
 
     private void Awake()
@@ -70,6 +89,19 @@ public class SoundManager : MonoBehaviour
     {
         //eftAudio.clip = efts[(int)type];
         eftAudio.PlayOneShot(efts[(int)type]);
-        print(type.ToString());
+        //print(type.ToString());
+    }
+
+    public void PlayGo(byte gocount)
+    { 
+        print(gocount + "고");
+        goAudio.PlayOneShot(go[(int)gocount-1]);
+        //print(gocount.ToString());
+    }
+
+    public void AddPointer(AddPoint point)
+    {
+        eventsAudio.PlayOneShot(events[(int)point]);
+        print(point.ToString());
     }
 }

@@ -424,8 +424,13 @@ public class CPlayerAgent
 	public void plus_go_count()
 	{
 		++this.go_count;
+		GoEFT(go_count);
 	}
 
+	void GoEFT(byte count)
+	{
+		SoundManager.instance.PlayGo(count);
+	}
 
 	public void plus_shaking_count()
 	{
