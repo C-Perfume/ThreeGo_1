@@ -606,7 +606,7 @@ public class CPlayRoomUI : MonoBehaviour, IMessageReceiver {
 	void on_game_result(CPacket msg)
 	{
 		byte is_win = msg.pop_byte();
-		short money = msg.pop_int16();
+		//short money = msg.pop_int16(); // 주석처리 및 refresh list 상 money 제거
 		short score = msg.pop_int16();
 		short double_val = msg.pop_int16();
 		short final_score = msg.pop_int16();
@@ -614,7 +614,7 @@ public class CPlayRoomUI : MonoBehaviour, IMessageReceiver {
 		CUIManager.Instance.show(UI_PAGE.POPUP_GAME_RESULT);
 		CPopupGameResult popup = 
 			CUIManager.Instance.get_uipage(UI_PAGE.POPUP_GAME_RESULT).GetComponent<CPopupGameResult>();
-		popup.refresh(is_win, money, score, double_val, final_score);
+		popup.refresh(is_win, score, double_val, final_score);
 	}
 
 

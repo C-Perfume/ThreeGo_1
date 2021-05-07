@@ -285,7 +285,7 @@ public class CAIPlayer
 	{
 		CPacket answer_msg = CPacket.create((short)PROTOCOL.ANSWER_GO_OR_STOP);
 		//ㅂ스톱으로 변경
-		answer_msg.push((byte)0); // 0:스톱, 1:고.
+		answer_msg.push((byte)2); // 2:스톱, 1:고.
 		this.local_server.on_receive_from_ai(answer_msg);
 	}
 

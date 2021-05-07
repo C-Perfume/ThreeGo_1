@@ -38,7 +38,6 @@ public class CPopupGameResult : MonoBehaviour {
 
 
 	public void refresh(byte is_win,
-		int money,
 		int score,
 		int double_val,
 		int final_score)
@@ -46,13 +45,14 @@ public class CPopupGameResult : MonoBehaviour {
 		if (is_win == 1)
 		{
 			this.win_lose.sprite = this.win_sprite;
+			this.money.text = "오잉? 타짜세요?";
 		}
 		else
 		{
 			this.win_lose.sprite = this.lose_sprite;
+			this.money.text = "... 지갑이 싸늘하다..";
 		}
 
-		this.money.text = money.ToString();
 		this.score.text = score.ToString();
 		this.double_val.text = double_val.ToString();
 		this.final_score.text = final_score.ToString();

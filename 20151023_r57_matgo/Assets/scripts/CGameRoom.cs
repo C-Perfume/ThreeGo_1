@@ -233,7 +233,12 @@ public class CGameRoom
 						owner.agent.plus_go_count();
 						next_turn();
 					}
-					else
+				//ㅂ 패배 결과값 추가 및 함수 실행
+					else if (answer == 2)
+				{
+					broadcast_game_lose();
+				}
+				else
 					{
 						broadcast_game_result();
 					}
@@ -242,6 +247,23 @@ public class CGameRoom
 		}
     }
 
+	//ㅂ 패배 함수 추가
+	void broadcast_game_lose()
+	{
+		CPlayer winner = this.players[1];
+
+		for (int i = 0; i < this.players.Count; ++i)
+		{
+			int num = 3;
+			CPacket msg = CPacket.create((short)PROTOCOL.GAME_RESULT);
+			msg.push((byte)2); // 승리 패배 이미지
+							   //msg.push((short)1); // 돈
+			msg.push(winner.agent.score); // 점수
+			msg.push((short)num); //~배
+			msg.push((short)winner.agent.score * num); // 합계
+			this.players[0].send(msg);
+		}
+	}
 
 	void broadcast_game_result()
 	{
@@ -249,14 +271,16 @@ public class CGameRoom
 
 		for (int i = 0; i < this.players.Count; ++i)
 		{
+			int num = 1;
 			CPacket msg = CPacket.create((short)PROTOCOL.GAME_RESULT);
 			msg.push((byte)1);
-			msg.push((short)15000);
+			//msg.push((short)15000); ㅂ 주석처리
 			msg.push(winner.agent.score);
-			msg.push((short)2);
-			msg.push((short)16);
+			msg.push((short)num);
+			msg.push((short)winner.agent.score * num);
 			this.players[i].send(msg);
 		}
+
 	}
 
 
