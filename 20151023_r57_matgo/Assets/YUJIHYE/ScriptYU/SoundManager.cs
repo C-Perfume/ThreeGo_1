@@ -38,15 +38,18 @@ public class SoundManager : MonoBehaviour
     //a: 1±¤ , b : 3±¤, c :8±¤, d :¶Ë±¤, e : ºñ±¤
     public enum GoState
     {
+        //3±¤
         gang_abc,
         gang_abd,
         gang_acd,
         gang_bcd,
+        //4±¤
         gang_abcd,
         gang_abce,
         gang_abde,
         gang_acde,
         gang_bcde,
+        //5±¤
         gang_abcde,
     }
 
