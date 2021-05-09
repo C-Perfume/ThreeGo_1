@@ -328,6 +328,7 @@ public class CPlayerAgent
 		{
 			this.score += 5;
 			//UnityEngine.Debug.Log("Godori 5 score");
+			ScoreEventManager.instance.GodoriEFT();
 		}
 
 		// 홍단, 초단, 청단
@@ -338,18 +339,21 @@ public class CPlayerAgent
 		{
 			this.score += 3;
 			//UnityEngine.Debug.Log("Cheongdan 3 score");
+			ScoreEventManager.instance.ChoungEFT();
 		}
 
 		if (hongdan_count == 3)
 		{
 			this.score += 3;
 			//UnityEngine.Debug.Log("Hongdan 3 score");
+			ScoreEventManager.instance.HongEFT();
 		}
 
 		if (chodan_count == 3)
 		{
 			this.score += 3;
 			//UnityEngine.Debug.Log("Chodan 3 score");
+			ScoreEventManager.instance.ChoEFT();
 		}
 
 		//UnityEngine.Debug.Log(string.Format("[SCORE] player {0},  score {1}", this.player_index, this.score));
