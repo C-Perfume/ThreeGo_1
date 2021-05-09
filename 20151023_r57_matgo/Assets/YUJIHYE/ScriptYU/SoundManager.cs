@@ -21,13 +21,15 @@ public class SoundManager : MonoBehaviour
         EFT_jjak,//
         EFT_tuk,//
 
+        EFT_eatpack,//
+        /*
         EFT_kiss,//
         EFT_bomb,//
         EFT_ddadak,//
         EFT_shaking,//
         EFT_pack,//
-        EFT_eatpack,//
         EFT_clean,//
+        */
         EFT_takecakd,//
         EFT_nagari
     }

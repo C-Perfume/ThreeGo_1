@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// 맞고의 룰을 구현한 클래스.
@@ -146,10 +147,12 @@ public class CGostopEngine
 		// 2번 반복하여 바닥에는 8장, 플레이어에게는 10장씩 돌아가도록 한다.
 		for (int count = 0; count < 2; ++count)
 		{
+		    SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg); 
+		    //StartCoroutine("ReadyDelay(0.1f)");
+
 			// 바닥에 4장.
 			for (byte i = 0; i < 4; ++i)
 			{
-				if (i == 0){ SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg); }
 				CCard card = pop_front_card();
 				this.distributed_floor_cards.Add(card);
 
@@ -160,7 +163,7 @@ public class CGostopEngine
 			// 1p에게 5장.
 			for (int i = 0; i < 5; ++i)
 			{
-				if (i == 0) { SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg); }
+				
 				CCard card = pop_front_card();
 				this.distributed_players_cards[player_index].Add(card);
 
@@ -172,7 +175,7 @@ public class CGostopEngine
 			// 2p에게 5장.
 			for (int i = 0; i < 5; ++i)
 			{
-				if (i == 0) { SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg); }
+				
 				CCard card = pop_front_card();
 				this.distributed_players_cards[player_index].Add(card);
 
@@ -192,8 +195,7 @@ public class CGostopEngine
 		}
 	}
 
-
-	byte MAX_PLAYER_COUNT = 2;
+    byte MAX_PLAYER_COUNT = 2;
 	public byte get_next_player_index()
 	{
 		if (this.current_player_index < MAX_PLAYER_COUNT - 1)
@@ -305,8 +307,8 @@ public class CGostopEngine
 						if (count_from_hand == 2)
 						{
 							this.card_event_type = CARD_EVENT_TYPE.SHAKING;
-							///
-							SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_shaking);
+							
+							/*SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_shaking); */
 							this.player_agents[player_index].plus_shaking_count();
 
 							// 플레이어에게 흔든 카드 정보를 보내줄 때 사용하기 위해서 리스트에 보관해 놓는다.
@@ -336,8 +338,7 @@ public class CGostopEngine
 					if (count_from_hand == 2)
 					{
 						this.card_event_type = CARD_EVENT_TYPE.BOMB;
-						///
-						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_bomb);
+						/*SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_bomb);*/
 						get_current_player().plus_shaking_count();
 
 						// 플레이어가 선택한 카드와, 바닥 카드, 폭탄 카드를 모두 가져 간다.
@@ -480,7 +481,7 @@ public class CGostopEngine
 		if (this.floor_manager.is_empty())
 		{
 			this.flipped_card_event_type.Add(CARD_EVENT_TYPE.CLEAN);
-			SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_clean);
+			/*SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_clean);*/
 			take_cards_from_others(1);
 		}
 	}
@@ -510,7 +511,7 @@ public class CGostopEngine
 				{
 					// 쪽.
 					this.flipped_card_event_type.Add(CARD_EVENT_TYPE.KISS);
-					SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_kiss);
+					/*SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_kiss);*/
 				
 					this.cards_to_give_player.Clear();
 					this.cards_to_give_player.Add(this.card_from_player);
@@ -526,7 +527,7 @@ public class CGostopEngine
 					{
 						// 뻑.
 						this.flipped_card_event_type.Add(CARD_EVENT_TYPE.PPUK);
-						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_pack);
+						/*SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_pack);*/
 						get_current_player().plus_ppuk_count();
 
 						// 플레이어에게 주려던 카드를 모두 취소한다.
@@ -547,7 +548,7 @@ public class CGostopEngine
 					{
 						// 따닥.
 						this.flipped_card_event_type.Add(CARD_EVENT_TYPE.DDADAK);
-						SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ddadak);
+						/*SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ddadak);*/
 						// 플레이어가 4장 모두 가져간다.
 						this.cards_to_give_player.Clear();
 						for (int i = 0; i < same_cards.Count; ++i)
@@ -726,4 +727,10 @@ public class CGostopEngine
 	{
 		return this.player_agents[this.current_player_index];
 	}
+	/*
+	IEnumerator Enumerator ReadyDelay(float delay)
+	{
+		yield return new WaitForSeconds(delay); 
+	}
+	*/
 }

@@ -39,6 +39,7 @@ public class CUIManager : CSingletonMonobehaviour<CUIManager>
 	public void show(UI_PAGE page)
 	{
 		this.ui_objects[page].SetActive(true);
+		//뭐할건지 물어보는 사운드 
 	}
 
 
