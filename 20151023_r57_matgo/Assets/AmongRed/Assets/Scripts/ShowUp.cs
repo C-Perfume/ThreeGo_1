@@ -177,6 +177,22 @@ public class ShowUp : MonoBehaviour
                 break;
             }
         }
+
+
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            for (int i = 12; i <= 12;)
+            {
+                gwangs[i] = Instantiate(gwangObject[i]);
+                gwangs[i].SetActive(true);
+                Destroy(gwangs[i], DestroyTime);
+                gwangs[i].transform.position = transform.position;
+                break;
+            }
+        }
+
+
+
     }
 
 
