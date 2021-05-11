@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7177733921626598264}
   - component: {fileID: 7177733921626598247}
   - component: {fileID: 7177733921626598246}
+  - component: {fileID: 8481384290100266293}
   - component: {fileID: 7177733921626598265}
   - component: {fileID: 7177733921626598266}
   m_Layer: 0
@@ -97,6 +98,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8481384290100266293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7177733921626598244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc589532d6be4004d8fa29433d5fc9e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestroyTime: 4
 --- !u!114 &7177733921626598265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,4 +138,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   createTime: 1
   ParticleFactory: {fileID: 7177733921626598244}
-  P: []
+  speed: 5
