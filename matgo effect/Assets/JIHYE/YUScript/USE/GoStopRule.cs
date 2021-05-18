@@ -170,7 +170,7 @@ public class GoStopRule : MonoBehaviour
         List<GameObject> ScoreType = new List<GameObject>(); 
         for (int i = 0; i < scorelist.Count; i++)
         {
-            Card.Card_Type t =  scorelist[i].GetComponent<Card>().type;
+            Card.Card_Type t = scorelist[i].GetComponent<Card>().type;
             if (t == type)
             {
                 ScoreType.Add(scorelist[i]);
@@ -456,40 +456,21 @@ public class GoStopRule : MonoBehaviour
         StartCoroutine(Turn_Result(samefloorCard, player, deck,1));
     }
 
-    public void Boming(int a)
+    public void Boming(GameObject back ,GameObject deck,int a)
     {
+        Move_to_Emptyfloor(back);
+        Destroy(back, 1);
+        List<GameObject> otherscore = new List<GameObject>();
         if (a == 0)
         {
-
+            otherscore = player2_score;
         }
         else if (a == 1)
-        { 
-
-        }
-
-        List<GameObject> decksamecard = LiST_SameFloor(pea[0]);
-
-        switch (decksamecard.Count)
         {
-            case 0:
-                //패를 바닥카드로 놓고 바닥카드로 등록 한다. 
-                Move_to_Emptyfloor(pea[0]);
-                //
-                Move_to_List(pea[0], floor, pea);
-                break;
-            case 1:
-                
-                break;
-            case 2:
-                
-                break;
-            case 3:
-                
-                break;
-            default:
-                break;
+            otherscore = player1_score;
         }
 
+        StartCoroutine(DeckTurn(deck, otherscore, a));
 
     }
     public void Boming(List<GameObject> bomb,GameObject same,int a, GameObject deck)
@@ -503,6 +484,7 @@ public class GoStopRule : MonoBehaviour
         if (a.GetComponent<Card>().state == Card.CARD_STATE.KOOKJIN || 
             b.GetComponent<Card>().state == Card.CARD_STATE.KOOKJIN)
         {
+            //print("국진이 골라");
             return true;
         }
         return false;
@@ -523,6 +505,7 @@ public class GoStopRule : MonoBehaviour
         {
             if (poop.GetComponent<Card>().moon == toilet[i])
             {
+                print("내가 쌌지!두장줘!");
                 return 2;
             }
         }
@@ -567,8 +550,11 @@ public class GoStopRule : MonoBehaviour
         Take_Pee(otherscore, 1, a);
         if (Is_GukJin(bomb[0], bomb[1]) || Is_GukJin(bomb[2], same)) 
         {
-
-            yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+            yield return new WaitForSeconds(1.5f);
+            //ChoiceCard.instance.gukjin_selec = true;
+            ChoiceCard.instance.Ques_Gukjin(a);
+            //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+            //ChoiceCard.instance.Ques_Gukjin(1);
         }
     }
 
@@ -594,8 +580,11 @@ public class GoStopRule : MonoBehaviour
                 Move_to_List(decksamecard[0], floor, index);
                 if (Is_GukJin(deck, decksamecard[0])) 
                 {
-
-                    yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                    yield return new WaitForSeconds(1.5f);
+                    //ChoiceCard.instance.gukjin_selec = true;
+                    ChoiceCard.instance.Ques_Gukjin(index);
+                    //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                    //ChoiceCard.instance.Ques_Gukjin(1);
                 }
                  
                 
@@ -616,8 +605,11 @@ public class GoStopRule : MonoBehaviour
                 Move_to_List(chosen, floor, index);
                 if (Is_GukJin(deck, chosen)) 
                 {
-
-                    yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                    yield return new WaitForSeconds(1.5f);
+                    //ChoiceCard.instance.gukjin_selec = true;
+                    ChoiceCard.instance.Ques_Gukjin(index);
+                    //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                    //ChoiceCard.instance.Ques_Gukjin(1);
                 }
                 break;
             case 3:
@@ -639,8 +631,11 @@ public class GoStopRule : MonoBehaviour
 
                 if (Is_GukJin(deck, decksamecard[0]) || Is_GukJin(decksamecard[1], decksamecard[2])) 
                 {
-
-                    yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                    yield return new WaitForSeconds(1.5f);
+                    //ChoiceCard.instance.gukjin_selec = true;
+                    ChoiceCard.instance.Ques_Gukjin(index);
+                    //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                    //ChoiceCard.instance.Ques_Gukjin(1);
                 }
                 break;
         }
@@ -696,8 +691,11 @@ public class GoStopRule : MonoBehaviour
                     Take_Pee(other_score, 1, index);
                     if (Is_GukJin(deck, player)) 
                     {
-
-                        yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                        yield return new WaitForSeconds(1.5f);
+                        //ChoiceCard.instance.gukjin_selec = true;
+                        ChoiceCard.instance.Ques_Gukjin(index);
+                        //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                        //ChoiceCard.instance.Ques_Gukjin(1);
                     }
                 }
                 else
@@ -716,7 +714,7 @@ public class GoStopRule : MonoBehaviour
                 {
                     //덱카드 위치 내카드 위로 이동 
                     Move_to_pos(deck, player.transform.position + addpos);
-                    //==  //똥싸기 이벤트 발생
+              //==  //똥싸기 이벤트 발생
                     //EventManager.instance.DeckEvent(EventManager.Play_Event.ddong);
                     print("쌌다..");
                     toilet.Add(deck.GetComponent<Card>().moon);
@@ -732,8 +730,11 @@ public class GoStopRule : MonoBehaviour
                     Move_to_List(samefloorCard[0], floor,index);
                     if (Is_GukJin( player,samefloorCard[0])) 
                     {
-
-                        yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                        yield return new WaitForSeconds(1.5f);
+                        //ChoiceCard.instance.gukjin_selec = true;
+                        ChoiceCard.instance.Ques_Gukjin(index);
+                        //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                        //ChoiceCard.instance.Ques_Gukjin(1);
                     }
                 }
 
@@ -762,8 +763,11 @@ public class GoStopRule : MonoBehaviour
 
                     if (Is_GukJin(player, deck) || Is_GukJin(samefloorCard[0], samefloorCard[1])) 
                     {
-
-                        yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                        yield return new WaitForSeconds(1.5f);
+                        //ChoiceCard.instance.gukjin_selec = true;
+                        ChoiceCard.instance.Ques_Gukjin(index);
+                        //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                        //ChoiceCard.instance.Ques_Gukjin(1);
                     }
                 }
                 else
@@ -782,8 +786,11 @@ public class GoStopRule : MonoBehaviour
 
                     if (Is_GukJin(player, chosen)) 
                     {
-
-                        yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                        yield return new WaitForSeconds(1.5f);
+                        //ChoiceCard.instance.gukjin_selec = true;
+                        ChoiceCard.instance.Ques_Gukjin(index);
+                        //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                        //ChoiceCard.instance.Ques_Gukjin(1);
                     }
                 }
                 break;
@@ -806,8 +813,11 @@ public class GoStopRule : MonoBehaviour
 
                 if (Is_GukJin(player, samefloorCard[0]) ||  Is_GukJin(samefloorCard[1], samefloorCard[2])) 
                 {
-                    ChoiceCard.instance.gukjin_selec = true;
-                    yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                    yield return new WaitForSeconds(1.5f);
+                    //ChoiceCard.instance.gukjin_selec = true;
+                    ChoiceCard.instance.Ques_Gukjin(index);
+                    //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
+                    //ChoiceCard.instance.Ques_Gukjin(1);
                 }
 
                 break;

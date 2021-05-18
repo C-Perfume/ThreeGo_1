@@ -38,7 +38,6 @@ public class Card : MonoBehaviour
     }
 
     public int moon;
-    public string name;
     public int floor_index;
     public int player_index;
     public Card_Type type;
@@ -49,7 +48,6 @@ public class Card : MonoBehaviour
 
     private void Start()
     {
-        name = gameObject.name;
     }
 
     public bool Same(int mon)
