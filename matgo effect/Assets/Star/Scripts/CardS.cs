@@ -24,15 +24,8 @@ public class CardS : MonoBehaviour
         KOOKJIN,         // ±¹Áø
         BGWANG //ºñ±¤
     }
-    public enum PLAYER
-    { 
-     NONE,
-    P1,
-    P2,
-    P3
-    }
+
     public int num;
-    public PLAYER pNum;
     public PAE_TYPE type;
     public CARD_STATUS state;
 

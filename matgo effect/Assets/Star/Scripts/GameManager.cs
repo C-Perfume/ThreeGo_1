@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
 
     #region 변수모음
     public Sprite[] imgs; // 화투이미지48개
-    public Sprite back; // 뒷면이나 현재 아무거나 집어넣음
     public Transform[] deckPos; // 바닥패위치
     public Transform zero; // 카드덱 0,0,0이다.
     public Transform[] p1HandPos;
@@ -24,6 +23,7 @@ public class GameManager : MonoBehaviour
     public Transform[] p1FPos; //광열띠피
     public Transform[] p2FPos; //광열띠피
 
+    public List<GameObject> saveCL = new List<GameObject>();
     public List<GameObject> cardL = new List<GameObject>(); //모든 패를 담는 리스트
                                                             //(num의 같은 순서로 부여된 값을 가져오려면 순번을 찾을 수 있는 리스트로 하는게 필요했다..
                                                             //배열은 순번을 가져올 수 있는 함수?가 안찾아진다.
@@ -46,22 +46,44 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        SetCard();
-       Shuffle();
-        StartCoroutine(Distribute());
-    }
-
-
-
-    void Update()
-    {
         
     }
 
-    
-    
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1)) GameStart();
+        
+    }
+        
+    void GameStart() {
+        SetCard();
+        Shuffle();
+        StartCoroutine(Distribute());
+    }
+
+    public void Reset()
+    {
+        cardL.Clear();
+        p1HandL.Clear();
+        p2HandL.Clear();
+        floorL.Clear();
+        emptyL.Clear();
+        p1FPosL.Clear();
+        p2FPosL.Clear();
+
+        for (int i = 0; i < saveCL.Count; i++)
+        {
+          cardL.Add(saveCL[i]);
+          cardL[i].transform.position = zero.position;
+          cardL[i].transform.eulerAngles = new Vector3(90, 0, 0);
+          cardL[i].transform.Rotate(180, 0, 0);
+        }
+        GameStart();
+    }
+
     void SetCard()
     {
+
         for (int j = 0; j < 12; j++)
         {
             for (int i = 1; i < 5; i++)
@@ -72,11 +94,8 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < cardL.Count; i++)
         {
-            //deckimg = new Sprite[cardL.Count];
             cardL[i].GetComponent<SpriteRenderer>().sprite = imgs[i]; // 이미지 설정
-            //deckimg[i] = cardL[i].GetComponent<SpriteRenderer>().sprite;
-            //cardL[i].GetComponent<SpriteRenderer>().sprite = back;
-            cardL[i].transform.position += Vector3.right * 0.01f * i;
+            cardL[i].transform.position += Vector3.right * 0.0005f * i;
         } // 카드이미지
 
         for (int i = 0; i < deckPos.Length; i++)
@@ -107,8 +126,8 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 100; i++)
         {
-            int j = Random.Range(12,27);
-            int k = Random.Range(12, 27);
+            int j = Random.Range(4, cardL.Count); // cardL.Count
+            int k = Random.Range(4, cardL.Count);
             GameObject Save = cardL[j];
             cardL[j] = cardL[k];
             cardL[k] = Save;
@@ -116,20 +135,23 @@ public class GameManager : MonoBehaviour
 
         //따닥설정
         GameObject t = cardL[1];
-        cardL[1] = cardL[5];
-        cardL[5] = t;
+        cardL[1] = cardL[32];
+        cardL[32] = t;
 
 
         GameObject a = cardL[2];
-        cardL[2] = cardL[29];
-        cardL[29] = a;
+        cardL[2] = cardL[8];
+        cardL[8] = a;
 
-        GameObject b = cardL[8];
-        cardL[8] = cardL[2];
-        cardL[2] = b;
+        //GameObject b = cardL[3];
+        //cardL[3] = cardL[6];
+        //cardL[6] = b;
+
+        GameObject c = cardL[5];
+        cardL[5] = cardL[33];
+        cardL[33] = c;
 
     }
-
 
 
 
@@ -143,7 +165,6 @@ public class GameManager : MonoBehaviour
             {
 
                 ActioniT(cardL[0], 1 + (i * 0.2f), p1HandPos[i + (redo * 5)].position, .15f);
-                cardL[0].GetComponent<CardS>().pNum = CardS.PLAYER.P1;
                 p1HandL.Add(cardL[0]);
                 cardL.RemoveAt(0);
 
@@ -164,7 +185,6 @@ public class GameManager : MonoBehaviour
 
                 //cardL[0].GetComponent<SpriteRenderer>().sprite = back;
                 ActioniT(cardL[0], 2 + (i * 0.2f), p2HandPos[i + (redo * 5)].position, .15f);
-                cardL[0].GetComponent<CardS>().pNum = CardS.PLAYER.P2;
                 p2HandL.Add(cardL[0]);
                 cardL.RemoveAt(0);
             
@@ -180,7 +200,6 @@ public class GameManager : MonoBehaviour
         //PlayerM pm2 = GameObject.Find("P2").GetComponent<PlayerM>();
         Score sc = GameObject.Find("P1").GetComponent<Score>();
         Score sc2 = GameObject.Find("P2").GetComponent<Score>();
-        sc.Card4();
         sc.Card4();
         pm.Card4F();
     }
@@ -200,7 +219,7 @@ public class GameManager : MonoBehaviour
                 if (floorL[i].GetComponent<CardS>().num == floorL[j].GetComponent<CardS>().num)
                 {
 
-                    floorL[j].transform.position = floorL[i].transform.position + Vector3.right * 0.3f * k;
+                    floorL[j].transform.position = floorL[i].transform.position + Vector3.right * 0.005f * k;
 
                     if (emptyL[j].occupy.Count > 0) emptyL[i].occupy.Add(emptyL[j].occupy[0]);
                     if (emptyL[j].occupy.Count > 0) emptyL[j].occupy.RemoveAt(0);
@@ -262,7 +281,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    public void Sort(List<GameObject> p1HandL , Transform[] p1HandPos, float spd) {
+      
+        for (int i = 0; i < p1HandL.Count; i++)
+        {
+            ActioniT(p1HandL[i], spd, p1HandPos[i].position, .1f);
+        }
+    }
 
 
     //카드회전
@@ -275,7 +300,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < p2HandL.Count; i++)
         {
-            p2HandL[i].transform.eulerAngles = new Vector3(-30, 0);
+            p2HandL[i].transform.eulerAngles = new Vector3(150, 0, 180);
         }
 
         for (int i = 0; i < floorL.Count; i++)
