@@ -490,7 +490,7 @@ public class GoStopRule : MonoBehaviour
             otherscore = player1_score;
         }
         StartCoroutine( bombTurn(bomb, same, a,deck));
-        GO_STOP.instance.TurnOver(0, otherscore);
+        GO_STOP.instance.TurnOver(a, otherscore);
     }
 
 
@@ -575,7 +575,7 @@ public class GoStopRule : MonoBehaviour
             //ChoiceCard.instance.Ques_Gukjin(1);
         }
 
-        GO_STOP.instance.TurnOver(0, otherscore);
+        GO_STOP.instance.TurnOver(a, otherscore);
     }
 
     public IEnumerator DeckTurn(GameObject deck,List<GameObject> other_score,int index)
@@ -867,7 +867,7 @@ public class GoStopRule : MonoBehaviour
             player2_score = player_score;
             player1_score = other_score;
         }
-        GO_STOP.instance.TurnOver(0, other_score);
+        GO_STOP.instance.TurnOver(index, other_score);
         }//점수 결과 전달
     }
 }
