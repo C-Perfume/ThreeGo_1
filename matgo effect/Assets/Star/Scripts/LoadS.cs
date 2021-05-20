@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class LoadS : MonoBehaviour
 {
@@ -34,26 +35,34 @@ public class LoadS : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//#if UNITY_EDITOR
+  //          if (!EventSystem.current.IsPointerOverGameObject())
+//#else
+  //          if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+//#endif
+  //          {
 
-            RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                                GameObject hitobj = hit.transform.gameObject;
+                RaycastHit hit;
 
-                if (hitobj.name.Contains("pivot"))
+                if (Physics.Raycast(ray, out hit))
                 {
+                    GameObject hitobj = hit.transform.gameObject;
 
-                    if (hitobj.name.Contains("A"))
+                    if (hitobj.name.Contains("pivot"))
                     {
-                        StartCoroutine(ChangeScene("StarMatgo"));
-                    }
-                    else
-                    {
-                        StartCoroutine(ChangeScene("YUGameScene"));
-                    }
 
+                        if (hitobj.name.Contains("A"))
+                        {
+                            StartCoroutine(ChangeScene("StarMatgo"));
+                        }
+                        else
+                        {
+                            StartCoroutine(ChangeScene("YUGameScene"));
+                        }
+
+    //                }
                 }
             }
         }
@@ -69,7 +78,7 @@ public class LoadS : MonoBehaviour
             }
         }
 
-        IEnumerator ChangeScene(string sceneName)
+         IEnumerator ChangeScene(string sceneName)
         {
             loading.SetActive(true);
             fadeDir = 1;
@@ -99,32 +108,4 @@ public class LoadS : MonoBehaviour
 
     }
 
-    IEnumerator ChangeScene(string sceneName)
-    {
-        loading.SetActive(true);
-        fadeDir = 1;
-        // 씬을 로드 한다(비동기 로드)
-        AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
-
-        ao.allowSceneActivation = false;
-
-        // 로드가 완료가 되었다면                
-        while (ao.isDone == false)
-        {
-            // 진행상황 표시
-            print(ao.progress + "");
-
-            if (ao.progress >= 0.9f)
-            {
-                yield return new WaitForSeconds(2);
-                ao.allowSceneActivation = true;
-            }
-
-            yield return null;
-        }
-
-        //loading.SetActive(false);
-        fadeDir = -1;
-        print(ao.progress);
-    }
 }

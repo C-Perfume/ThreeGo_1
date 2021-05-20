@@ -9,13 +9,10 @@ public class StartRule : MonoBehaviour
     public GameObject[] rules;
     public GameObject setting;
     public GameObject muteSet;
-    public float waitT = 4;
-        AudioSource bGM;
+    public AudioSource bGM;
     void Start()
     {
-        bGM = GetComponent<AudioSource>();
         for(int i = 0; i<rules.Length; i++) { rules[i].SetActive(false); }
-        StartCoroutine("Wait");
            }
 
     void Update()
@@ -23,8 +20,7 @@ public class StartRule : MonoBehaviour
 
     }
 
-    IEnumerator Wait (){
-        yield return new WaitForSeconds(waitT);
+    public void Wait (){
         rules[0].SetActive(true);
         rules[1].SetActive(true);
         bGM.Pause();
@@ -89,6 +85,6 @@ public class StartRule : MonoBehaviour
 
     public void Retry() {
         Time.timeScale = 1;
-        SceneManager.LoadScene("play");
+        SceneManager.LoadScene("title");
     }
 }

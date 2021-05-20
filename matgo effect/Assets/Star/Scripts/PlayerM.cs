@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerM : MonoBehaviour
 {
@@ -92,185 +93,239 @@ public class PlayerM : MonoBehaviour
 
     void Update()
     {
-      
 
-            if (Input.GetMouseButtonDown(0))
+
+        if (Input.GetMouseButtonDown(0))
         {
-            if (bombP > 0)
+#if UNITY_EDITOR
+            if (!EventSystem.current.IsPointerOverGameObject())
+#else
+            if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+#endif
             {
-                eft.eftL[29].SetActive(false);
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+                if (bombP > 0)
                 {
-
-                    hitObj = hit.transform.gameObject; //레이로 맞은 obj는 hitObj
-
-                    #region//p2AI 움직임
-                    //{
-                    //    {
-                    //        StartCoroutine(Move2(p2FPosL, p1FPosL));
-                    //        bombC--;
-                    //    }
-                    //}
-                    #endregion
-
-                    if (gm.cardL.Contains(hitObj)) // 맞은게 덱리스트에 있다면
+                    eft.eftL[29].SetActive(false);
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit))
                     {
-                        StartCoroutine(Move2(p1FPosL, p2FPosL, hitObj));
-                        bombP--;
+
+                        hitObj = hit.transform.gameObject; //레이로 맞은 obj는 hitObj
+
+                        #region//p2AI 움직임
+                        if (player == 2)
+                        {
+                            {
+                                StartCoroutine(Move2(p2FPosL, p1FPosL, gm.cardL[0]));
+                                bombP--;
+                            }
+                        }
+                        #endregion
+
+                        if (gm.cardL.Contains(hitObj)) // 맞은게 덱리스트에 있다면
+                        {
+                            StartCoroutine(Move2(p1FPosL, p2FPosL, hitObj));
+                            bombP--;
+                        }
+                        // 폭탄피가 2장이라도 손패를 낼 수 있다.
+                        else
+                        {
+                            StartCoroutine(Move());
+                        }
                     }
-                    // 폭탄피가 2장이라도 손패를 낼 수 있다.
-                    else
-                    {
-                        StartCoroutine(Move());
-                    }
+
+                }
+                // 일반 상황
+                else
+                {
+                    StartCoroutine(Move());
                 }
 
-            }
-            // 일반 상황
-            else
-            {
-                StartCoroutine(Move());
-            }
 
-
-            //카드 두장 중 선택
-            if (c)
-            {
-                select = eft.Select();
-
-                if (select != null)
+                //카드 두장 중 선택
+                if (c)
                 {
-
-                    //for (int i = 0; i < gm.emptyL[num].occupy.Count; i++)
-                    //{
-
-                    if (select.name.Contains(gm.emptyL[num].occupy[0].name))
-                    {
+                    if (player == 2) {
                         StartCoroutine(Move3(num, p1FPosL, hitObj));
                         StartCoroutine(Move3(num, p1FPosL, gm.emptyL[num].occupy[0]));
                         StartCoroutine(Move2(p1FPosL, p2FPosL, gm.emptyL[num].occupy[0]));
                         eft.eftL[1].SetActive(false);
                         Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject);
                         Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject);
-                        // break;
+                        c = false;
                     }
-                    else
+                    select = eft.Select();
+
+                    if (select != null)
                     {
-                        StartCoroutine(Move3(num, p1FPosL, hitObj));
-                        StartCoroutine(Move3(num, p1FPosL, gm.emptyL[num].occupy[1]));
-                        StartCoroutine(Move2(p1FPosL, p2FPosL, gm.emptyL[num].occupy[1]));
-                        eft.eftL[1].SetActive(false);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject);
+
+                        //for (int i = 0; i < gm.emptyL[num].occupy.Count; i++)
+                        //{
+
+                        if (select.name.Contains(gm.emptyL[num].occupy[0].name))
+                        {
+                            StartCoroutine(Move3(num, p1FPosL, hitObj));
+                            StartCoroutine(Move3(num, p1FPosL, gm.emptyL[num].occupy[0]));
+                            StartCoroutine(Move2(p1FPosL, p2FPosL, gm.emptyL[num].occupy[0]));
+                            eft.eftL[1].SetActive(false);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject);
+                            // break;
+                        }
+                        else
+                        {
+                            StartCoroutine(Move3(num, p1FPosL, hitObj));
+                            StartCoroutine(Move3(num, p1FPosL, gm.emptyL[num].occupy[1]));
+                            StartCoroutine(Move2(p1FPosL, p2FPosL, gm.emptyL[num].occupy[1]));
+                            eft.eftL[1].SetActive(false);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject);
+                        }
+                        //}
+                        c = false;
                     }
-                    //}
-                    c = false;
+
+
                 }
 
-
-            }
-
-            //흔들 중 선택
-            if (s)
-            {
-                or = eft.Or();
-
-                if (or != null)
+                //흔들 중 선택
+                if (s)
                 {
-                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_tuk);
-                    // 아니다 선택
-                    if (or.name.Contains("c2"))
-                    {
-                        //비활성화 후 복제카드 폭파
-                        eft.eftL[4].SetActive(false);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 3).gameObject);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject);
+                    or = eft.Or();
+                    if (player == 2) {
 
-                        // 손패 움직이고 덱카드 움직이기
-                        for (int i = 0; i < gm.emptyL.Count; i++)
                         {
+                            shakeC++;
+                            //5번 흔들었다 활성화 후 카드 복제
+                            eft.PlayEFT(5,
+                                eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 3).gameObject,
+                                eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject,
+                                eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject
+                                );
 
-                            if (gm.emptyL[i].occupy.Count == 0)
+                            eft.PlayEFTM(Effect.EFT_TYPE.EFT_shaking);
+
+                            //4번 비활성화 후 4번 복제카드 삭제 
+                            eft.eftL[4].SetActive(false);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 6).gameObject);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 5).gameObject);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 4).gameObject);
+                            //5번 복제 카드도 2초 후 삭제
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 3).gameObject, 2);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject, 2);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject, 2);
+                            //5번 비활성화
+                            StartCoroutine(Invisible(eft.eftL[5], 2));
+
+
+                            //손패와 덱카드 움직이기
+                            for (int i = 0; i < gm.emptyL.Count; i++)
                             {
-                                //빈자리로 간다.
-                                gm.ActioniT(hitObj, spd, gm.emptyL[i].pos, .1f);
-                                gm.emptyL[i].occupy.Add(hitObj);
-                                idx = -1;
 
-                                StartCoroutine(Move2(p1FPosL, p2FPosL, hitObj));
-                                break;
+                                if (gm.emptyL[i].occupy.Count == 0)
+                                {
+                                    //빈자리로 간다.
+                                    gm.ActioniT(hitObj, spd, gm.emptyL[i].pos, .1f);
+                                    gm.emptyL[i].occupy.Add(hitObj);
+                                    idx = -1;
 
+                                    StartCoroutine(Move2(p1FPosL, p2FPosL, hitObj));
+                                    break;
+
+                                }
                             }
+
                         }
-                    }
-                    else
-                    {
-                        shakeC++;
-                        //5번 흔들었다 활성화 후 카드 복제
-                        eft.PlayEFT(5,
-                            eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 3).gameObject,
-                            eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject,
-                            eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject
-                            );
-
-                        eft.PlayEFTM(Effect.EFT_TYPE.EFT_shaking);
-
-                        //4번 비활성화 후 4번 복제카드 삭제 
-                        eft.eftL[4].SetActive(false);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 6).gameObject);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 5).gameObject);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 4).gameObject);
-                        //5번 복제 카드도 2초 후 삭제
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 3).gameObject, 2);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject, 2);
-                        Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject, 2);
-                        //5번 비활성화
-                        StartCoroutine(Invisible(eft.eftL[5], 2));
-
-
-                        //손패와 덱카드 움직이기
-                        for (int i = 0; i < gm.emptyL.Count; i++)
-                        {
-
-                            if (gm.emptyL[i].occupy.Count == 0)
-                            {
-                                //빈자리로 간다.
-                                gm.ActioniT(hitObj, spd, gm.emptyL[i].pos, .1f);
-                                gm.emptyL[i].occupy.Add(hitObj);
-                                idx = -1;
-
-                                StartCoroutine(Move2(p1FPosL, p2FPosL, hitObj));
-                                break;
-
-                            }
-                        }
-
-                    }
-                    // 흔들기 비활성화
-                    s = false;
+                        // 흔들기 비활성화
+                        s = false;
+                    
                 }
 
-            }
-
-            //국진팝업
-            if (kj)
-            {
-                or = eft.Or();
-
-                if (or != null)
-                {
-                    // 열끗 선택
-                    if (or.name.Contains("c2"))
+                    if (or != null)
                     {
-                        eft.eftL[11].SetActive(false);
+                        eft.PlayEFTM(Effect.EFT_TYPE.EFT_tuk);
+                        // 아니다 선택
+                        if (or.name.Contains("c2"))
+                        {
+                            //비활성화 후 복제카드 폭파
+                            eft.eftL[4].SetActive(false);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 3).gameObject);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject);
+
+                            // 손패 움직이고 덱카드 움직이기
+                            for (int i = 0; i < gm.emptyL.Count; i++)
+                            {
+
+                                if (gm.emptyL[i].occupy.Count == 0)
+                                {
+                                    //빈자리로 간다.
+                                    gm.ActioniT(hitObj, spd, gm.emptyL[i].pos, .1f);
+                                    gm.emptyL[i].occupy.Add(hitObj);
+                                    idx = -1;
+
+                                    StartCoroutine(Move2(p1FPosL, p2FPosL, hitObj));
+                                    break;
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            shakeC++;
+                            //5번 흔들었다 활성화 후 카드 복제
+                            eft.PlayEFT(5,
+                                eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 3).gameObject,
+                                eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject,
+                                eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject
+                                );
+
+                            eft.PlayEFTM(Effect.EFT_TYPE.EFT_shaking);
+
+                            //4번 비활성화 후 4번 복제카드 삭제 
+                            eft.eftL[4].SetActive(false);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 6).gameObject);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 5).gameObject);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 4).gameObject);
+                            //5번 복제 카드도 2초 후 삭제
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 3).gameObject, 2);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject, 2);
+                            Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject, 2);
+                            //5번 비활성화
+                            StartCoroutine(Invisible(eft.eftL[5], 2));
+
+
+                            //손패와 덱카드 움직이기
+                            for (int i = 0; i < gm.emptyL.Count; i++)
+                            {
+
+                                if (gm.emptyL[i].occupy.Count == 0)
+                                {
+                                    //빈자리로 간다.
+                                    gm.ActioniT(hitObj, spd, gm.emptyL[i].pos, .1f);
+                                    gm.emptyL[i].occupy.Add(hitObj);
+                                    idx = -1;
+
+                                    StartCoroutine(Move2(p1FPosL, p2FPosL, hitObj));
+                                    break;
+
+                                }
+                            }
+
+                        }
+                        // 흔들기 비활성화
+                        s = false;
                     }
 
-                    //쌍피라면
-                    else
-                    {
+                }
+
+                //국진팝업
+                if (kj)
+                {
+                    or = eft.Or();
+                    if (player == 2) {
+
                         eft.PlayEFTM(Effect.EFT_TYPE.EFT_take);
                         gm.ActioniT(p1FPosL[2].occupy[p1FPosL[2].occupy.Count - 1], spd,
                             p1FPosL[0].occupy[p1FPosL[0].occupy.Count - 1].transform.position, .1f);
@@ -279,105 +334,161 @@ public class PlayerM : MonoBehaviour
                         p1FPosL[2].occupy.RemoveAt(p1FPosL[2].occupy.Count - 1);
 
                         eft.eftL[11].SetActive(false);
-                    }
+                    
                     kj = false;
+
                 }
 
-            }
 
-
-            //고스톱묻기
-            if (sc.gc)
-            {
-                or = eft.Or();
-
-                if (or != null)
-                {
-                    // 아니당 선택
-                    if (or.name.Contains("c2"))
+                    if (or != null)
                     {
-                        eft.eftL[2].SetActive(false);
+                        // 열끗 선택
+                        if (or.name.Contains("c2"))
+                        {
+                            eft.eftL[11].SetActive(false);
+                        }
 
-                       
-                       sc.result.text = "이겼당!"; 
-                            eft.PlayEFT(0, gameObject, .05f, 5);
-                            eft.PlayEFTM(Effect.EFT_TYPE.win);
-                      
-                        //스톱 이펙트
-                        eft.PlayEFT(13,  gameObject, .05f);
-                        eft.PlayEFTM(Effect.EFT_TYPE.EFT_Stop);
-                        // 최종점수txt
-                        eft.PlayEFT(0);
-                        reset = true;
+                        //쌍피라면
+                        else
+                        {
+                            eft.PlayEFTM(Effect.EFT_TYPE.EFT_take);
+                            gm.ActioniT(p1FPosL[2].occupy[p1FPosL[2].occupy.Count - 1], spd,
+                                p1FPosL[0].occupy[p1FPosL[0].occupy.Count - 1].transform.position, .1f);
+
+                            p1FPosL[0].occupy.Add(p1FPosL[2].occupy[p1FPosL[2].occupy.Count - 1]);
+                            p1FPosL[2].occupy.RemoveAt(p1FPosL[2].occupy.Count - 1);
+
+                            eft.eftL[11].SetActive(false);
+                        }
+                        kj = false;
                     }
 
-                    //고하기
-                    else
-                    {
+                }
+
+
+                //고스톱묻기
+                if (sc.gc)
+                {
+                    or = eft.Or();
+
+                    if (player == 2) {
                         eft.eftL[2].SetActive(false);
                         //고 효과
                         sc.goCnt++;
-                        eft.PlayEFT(12,  gameObject, .05f);
-                        eft.PlayEFT(6,  gameObject, .05f, 5);
+                        eft.PlayEFT(12, gameObject, .05f);
+                        eft.PlayEFT(6, gameObject, .05f, 5);
                         eft.PlayGo(sc.goCnt);
                         print(sc.goCnt + "고");
                         sc.goScore = sc.currScore;
                         sc.go.text = "Go : " + sc.goCnt.ToString();
-                    }
-                    sc.gc = false;
-                }
-            }
-
-
-            //게임종료? 다시하기?
-            if (reset)
-            {
-                or = eft.Or();
-
-                if (or != null)
-                {
                     
-                    //끝
-                    if (or.name.Contains("c2"))
+                    sc.gc = false;
+
+                                                 }
+
+                    if (or != null)
                     {
-                        eft.eftL[0].SetActive(false);
+                        // 아니당 선택
+                        if (or.name.Contains("c2"))
+                        {
+                            eft.eftL[2].SetActive(false);
+
+
+                            sc.result.text = "이겼당!";
+                            eft.PlayEFT(0, gameObject, .05f, 5);
+                            eft.PlayEFTM(Effect.EFT_TYPE.win);
+
+                            //스톱 이펙트
+                            eft.PlayEFT(13, gameObject, .05f);
+                            eft.PlayEFTM(Effect.EFT_TYPE.EFT_Stop);
+                            // 최종점수txt
+                            eft.PlayEFT(0);
+                            reset = true;
+                        }
+
+                        //고하기
+                        else
+                        {
+                            eft.eftL[2].SetActive(false);
+                            //고 효과
+                            sc.goCnt++;
+                            eft.PlayEFT(12, gameObject, .05f);
+                            eft.PlayEFT(6, gameObject, .05f, 5);
+                            eft.PlayGo(sc.goCnt);
+                            print(sc.goCnt + "고");
+                            sc.goScore = sc.currScore;
+                            sc.go.text = "Go : " + sc.goCnt.ToString();
+                        }
+                        sc.gc = false;
                     }
-                    else {
+                }
+
+
+                //게임종료? 다시하기?
+                if (reset)
+                {
+                    or = eft.Or();
+
+                    if (player == 2) {
                         eft.eftL[0].SetActive(false);
                         Reset();
                     }
+                    
+                    if (or != null)
+                    {
 
-                 }
+                        //끝
+                        if (or.name.Contains("c2"))
+                        {
+                            eft.eftL[0].SetActive(false);
+                        }
+                        else
+                        {
+                            eft.eftL[0].SetActive(false);
+                            Reset();
+                        }
+
+                    }
+                }
+
+                if (p2m.reset)
+                {
+                    eft.PlayEFT(1, gameObject, .05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.lose);
+                    eft.PlayEFT(0);
+                }
+
+
             }
 
-            if (p2m.reset) {
-                eft.PlayEFT(1, gameObject, .05f, 5);
-                eft.PlayEFTM(Effect.EFT_TYPE.lose);
-                eft.PlayEFT(0);
+            if (sc.gdr == 1)
+            {
+                eft.PlayEFT(24, gameObject, .1f);
+                eft.PlayEFT(18, gameObject, 0.05f, 5);
+                eft.PlayEFTM(Effect.EFT_TYPE.EFT_GDR); sc.gdr = 100;
+            }
+            if (sc.r == 1)
+            {
+                eft.PlayEFT(25, gameObject, .1f);
+                eft.PlayEFT(19, gameObject, 0.05f, 5);
+                eft.PlayEFTM(Effect.EFT_TYPE.EFT_hongdan); sc.r = 100;
+            }
+            if (sc.g == 1)
+            {
+                eft.PlayEFT(26, gameObject, .1f);
+                eft.PlayEFT(20, gameObject, 0.05f, 5);
+                eft.PlayEFTM(Effect.EFT_TYPE.EFT_chodan); sc.g = 100;
+            }
+            if (sc.b == 1)
+            {
+                eft.PlayEFT(27, gameObject, .1f);
+                eft.PlayEFT(21, gameObject, 0.05f, 5);
+                eft.PlayEFTM(Effect.EFT_TYPE.EFT_chongdan); sc.b = 100;
             }
 
 
+            //if (Input.GetKeyDown(KeyCode.Alpha2)) Reset();
         }
-
-        if (sc.gdr == 1) { eft.PlayEFT(24, gameObject, .1f);
-            eft.PlayEFT(18, gameObject, 0.05f,5);
-            eft.PlayEFTM(Effect.EFT_TYPE.EFT_GDR); sc.gdr = 100;
-        }
-        if (sc.r == 1) { eft.PlayEFT(25, gameObject, .1f);
-            eft.PlayEFT(19, gameObject, 0.05f, 5);
-            eft.PlayEFTM(Effect.EFT_TYPE.EFT_hongdan); sc.r = 100;
-        }
-        if (sc.g == 1) { eft.PlayEFT(26,gameObject, .1f);
-            eft.PlayEFT(20, gameObject, 0.05f, 5);
-            eft.PlayEFTM(Effect.EFT_TYPE.EFT_chodan); sc.g = 100;
-        }
-        if (sc.b == 1) { eft.PlayEFT(27,gameObject, .1f);
-            eft.PlayEFT(21, gameObject, 0.05f, 5);
-            eft.PlayEFTM(Effect.EFT_TYPE.EFT_chongdan); sc.b = 100;
-        }
-
-
-        //if (Input.GetKeyDown(KeyCode.Alpha2)) Reset();
     }
 
     private void Reset()
@@ -411,37 +522,37 @@ public class PlayerM : MonoBehaviour
             hitObj = hit.transform.gameObject; //레이로 맞은 obj는 hitObj
 
             #region  //p2AI 움직임
-            //if (player == 2)
-            //{
-            //    if (p2HandL.Contains(hitObj)) // 맞은게 플레이어1번 핸드리스트에 있다면
-            //    {
-            //        yield return new WaitForSeconds(4);
-            //        idx = -1;
+            if (player == 2)
+            {
+                if (p2HandL.Contains(hitObj)) // 맞은게 플레이어1번 핸드리스트에 있다면
+                {
+                    yield return new WaitForSeconds(4);
+                    idx = -1;
 
-            //        for (int j = 0; j < p1HandL.Count; j++)
-            //        {
+                    for (int j = 0; j < p1HandL.Count; j++)
+                    {
 
-            //            for (int i = 0; i < gm.emptyL.Count; i++)
-            //            {
+                        for (int i = 0; i < gm.emptyL.Count; i++)
+                        {
 
-            //                //같은 월값이면
-            //                if (gm.emptyL[i].occupy.Count > 0
-            //                    && p1HandL[j].GetComponent<Card>().num == gm.emptyL[i].occupy[0].GetComponent<Card>().num)
-            //                {
-            //                    idx = i;
-            //                    idx2 = j;
+                            //같은 월값이면
+                            if (gm.emptyL[i].occupy.Count > 0
+                                && p1HandL[j].GetComponent<CardS>().num == gm.emptyL[i].occupy[0].GetComponent<CardS>().num)
+                            {
+                                idx = i;
+                                idx2 = j;
 
-            //                    break;
-            //                }
+                                break;
+                            }
 
-            //                if (idx != -1) { hitObj = p1HandL[idx2]; }
-            //                else { hitObj = p1HandL[p1HandL.Count - 1]; }
-            //            }
-            //        }
+                            if (idx != -1) { hitObj = p1HandL[idx2]; }
+                            else { hitObj = p1HandL[p1HandL.Count - 1]; }
+                        }
+                    }
 
 
-            //    }
-            //}
+                }
+            }
             #endregion
 
             if (p1HandL.Contains(hitObj)) // 맞은게 플레이어1번 핸드리스트에 있다면

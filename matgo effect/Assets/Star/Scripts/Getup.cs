@@ -11,6 +11,7 @@ public class Getup : MonoBehaviour
 
         void Start()
     {
+
         iTween.RotateTo(gameObject,
                    iTween.Hash(
                    "delay", delay,
