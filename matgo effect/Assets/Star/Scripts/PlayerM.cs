@@ -17,7 +17,7 @@ public class PlayerM : MonoBehaviour
     GameObject or = null;
 
     //µô·¹ÀÌ½Ã°£
-    float spd = 1f;
+    float spd = 0.1f;
 
     GameObject hitObj;//·¹ÀÌ·Î ¸ÂÀº ³ðÀ» ´ã´Â º¯¼ö
 
@@ -27,6 +27,7 @@ public class PlayerM : MonoBehaviour
 
     GameManager gm;
     Score sc;
+    PlayerM p2m;
     Effect eft;
 
     List<GameObject> tripleC; // ¼ÕÆÐ °°ÀºÄ«µå 3Àå
@@ -56,6 +57,7 @@ public class PlayerM : MonoBehaviour
             p1FPosL = gm.p1FPosL;
             p2FPosL = gm.p2FPosL;
             p1HandPos = gm.p1HandPos;
+            p2m = GameObject.Find("P2").GetComponent<PlayerM>();
         }
         else if (player == 2)
         {
@@ -64,6 +66,7 @@ public class PlayerM : MonoBehaviour
             p1FPosL = gm.p2FPosL;
             p2FPosL = gm.p1FPosL;
             p1HandPos = gm.p2HandPos;
+            p2m = GameObject.Find("P1").GetComponent<PlayerM>();
         }
     }
 
@@ -176,6 +179,7 @@ public class PlayerM : MonoBehaviour
 
                 if (or != null)
                 {
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_tuk);
                     // ¾Æ´Ï´Ù ¼±ÅÃ
                     if (or.name.Contains("c2"))
                     {
@@ -267,6 +271,7 @@ public class PlayerM : MonoBehaviour
                     //½ÖÇÇ¶ó¸é
                     else
                     {
+                        eft.PlayEFTM(Effect.EFT_TYPE.EFT_take);
                         gm.ActioniT(p1FPosL[2].occupy[p1FPosL[2].occupy.Count - 1], spd,
                             p1FPosL[0].occupy[p1FPosL[0].occupy.Count - 1].transform.position, .1f);
 
@@ -292,12 +297,15 @@ public class PlayerM : MonoBehaviour
                     if (or.name.Contains("c2"))
                     {
                         eft.eftL[2].SetActive(false);
-                        sc.result.text = "ÀÌ°å´ç!";
+
+                       
+                       sc.result.text = "ÀÌ°å´ç!"; 
+                            eft.PlayEFT(0, gameObject, .05f, 5);
+                            eft.PlayEFTM(Effect.EFT_TYPE.win);
+                      
                         //½ºÅé ÀÌÆåÆ®
                         eft.PlayEFT(13,  gameObject, .05f);
-                        eft.PlayEFT(0,  gameObject, .05f, 5);
                         eft.PlayEFTM(Effect.EFT_TYPE.EFT_Stop);
-                        eft.PlayEFTM(Effect.EFT_TYPE.win);
                         // ÃÖÁ¾Á¡¼ötxt
                         eft.PlayEFT(0);
                         reset = true;
@@ -311,7 +319,7 @@ public class PlayerM : MonoBehaviour
                         sc.goCnt++;
                         eft.PlayEFT(12,  gameObject, .05f);
                         eft.PlayEFT(6,  gameObject, .05f, 5);
-                        eft.PlayGo(sc.goCnt - 1);
+                        eft.PlayGo(sc.goCnt);
                         print(sc.goCnt + "°í");
                         sc.goScore = sc.currScore;
                         sc.go.text = "Go : " + sc.goCnt.ToString();
@@ -340,6 +348,12 @@ public class PlayerM : MonoBehaviour
                     }
 
                  }
+            }
+
+            if (p2m.reset) {
+                eft.PlayEFT(1, gameObject, .05f, 5);
+                eft.PlayEFTM(Effect.EFT_TYPE.lose);
+                eft.PlayEFT(0);
             }
 
 
@@ -461,7 +475,7 @@ public class PlayerM : MonoBehaviour
                 //Â¦ÀÌ ¸ÂÀ¸¸é
                 if (idx != -1)
                 {
-
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_jjak);
                     // ÆøÅº
                     if (tripleC.Count == 3)
                     {
@@ -475,6 +489,7 @@ public class PlayerM : MonoBehaviour
                         gm.ActioniT(tripleC[0], spd, gm.emptyL[idx].pos + (Vector3.right * 0.005f), .1f);
                         gm.ActioniT(tripleC[1], spd + 0.2f, gm.emptyL[idx].pos + (Vector3.right * 0.005f * 2), .1f);
                         gm.ActioniT(tripleC[2], spd + 0.4f, gm.emptyL[idx].pos + (Vector3.right * 0.005f * 3), .1f);
+                     
 
                         gm.floorL.Add(tripleC[0]); // ÆøÅº0ÀÌ ¹Ù´ÚÆÐ¿¡ Ãß°¡  
                         gm.emptyL[idx].occupy.Add(tripleC[0]);
@@ -562,7 +577,7 @@ public class PlayerM : MonoBehaviour
                 // Â¦ÀÌ ¾È¸ÂÀº °æ¿ì
                 else
                 {
-
+                   
                     if (tripleC != null && tripleC.Count == 3)
                     {
                         print("Èçµé±â?");
@@ -572,7 +587,7 @@ public class PlayerM : MonoBehaviour
                     //ÀÏ¹Ý»óÈ² ºóÀÚ¸®
                     else
                     {
-
+                        eft.PlayEFTM(Effect.EFT_TYPE.EFT_tuk);
                         for (int i = 0; i < gm.emptyL.Count; i++)
                         {
 
@@ -702,7 +717,7 @@ public class PlayerM : MonoBehaviour
 
         if (idx != -1)
         {
-
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_jjak);
             //»¶.. ½Ñ °æ¿ì
             if (hitdoubleC.Count == 1 &&
                hitObj.GetComponent<CardS>().num == gm.cardL[0].GetComponent<CardS>().num)
@@ -772,7 +787,7 @@ public class PlayerM : MonoBehaviour
         //Â¦ ¾ø´Â °æ¿ì
         else
         {
-
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_tuk);
             for (int i = 0; i < gm.emptyL.Count; i++)
             {
 
@@ -811,7 +826,7 @@ public class PlayerM : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         int TY = (int)obj.GetComponent<CardS>().type;
-
+        eft.PlayEFTM(Effect.EFT_TYPE.EFT_take);
         //±¹ÁøÀ» ¸ÔÀº °æ¿ì
         if (obj.GetComponent<CardS>().state == CardS.CARD_STATUS.KOOKJIN)
         {

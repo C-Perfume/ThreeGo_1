@@ -80,7 +80,8 @@ public class Effect : MonoBehaviour
         EFT_tuk,//
         TitleM,
         BGM,
-        win
+        win,
+        lose
     }
 
     public enum Go// 고사운드 
@@ -113,7 +114,7 @@ public class Effect : MonoBehaviour
 
     public void PlayBGM(EFT_TYPE type)
     {
-        bgmAudio.PlayOneShot(efts[(int)type]);
+        bgmAudio.clip = efts[(int)type];
     }
     
     public void PlayEFTM(EFT_TYPE type)
@@ -150,7 +151,7 @@ public class Effect : MonoBehaviour
     {
         GameObject eftA = Instantiate(eftF[eftFn]);
         eftA.transform.SetParent(gameObject.transform);
-        //eftA.transform.localScale = new Vector3(.01f, .01f, .01f);
+        eftA.transform.localScale = new Vector3(.004f, .004f, .004f);
         eftA.transform.position = obj2.transform.position + Vector3.up * up;
         eftA.SetActive(true);
         Destroy(eftA, destroy);
@@ -258,7 +259,7 @@ public class Effect : MonoBehaviour
 
     void Start()
     {
-    
+      
     }
     void Update()
     {
