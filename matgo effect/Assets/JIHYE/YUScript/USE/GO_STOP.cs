@@ -55,8 +55,6 @@ public class GO_STOP : MonoBehaviour
     void Update()
     {
         int scoreLine = 0;
-        p1score = GoStopRule.instance.p1_Score;
-        p2score = GoStopRule.instance.p2_Score;
 
         if (!gostop)
         {
@@ -64,6 +62,25 @@ public class GO_STOP : MonoBehaviour
         }
         else
         {
+            if (index == 0)
+            {
+                goCount = ScoreUI.instance.go1count;
+                score = GoStopRule.instance.p1_Score;
+
+                yealCount = yeal1_count;
+                pee_score = pee1_score;
+                kwang_score = kwang1_score;
+            }
+            else if (index == 1)
+            {
+                goCount = ScoreUI.instance.go2count;
+                score = GoStopRule.instance.p2_Score;
+
+                yealCount = yeal2_count;
+                pee_score = pee2_score;
+                kwang_score = kwang2_score;
+            }
+
             canvas.SetActive(true);
             if (Input.GetMouseButtonDown(0))
             { 
@@ -127,25 +144,8 @@ public class GO_STOP : MonoBehaviour
 
     public void TurnOver(int index, List<GameObject> other)
     {
+        this.index = index;
         otherlist = other;
-        if (index == 0)
-        {
-            score = p1score;
-            goCount = p1GoCount;
-
-            yealCount = yeal1_count;
-            pee_score = pee1_score;
-            kwang_score = kwang1_score;
-        }
-        else if (index == 1)
-        {
-            score = p2score;
-            goCount = p2GoCount;
-
-            yealCount = yeal2_count;
-            pee_score = pee2_score;
-            kwang_score = kwang2_score;
-        }
 
         //7점 이상이거나 이전 점수 보다 높을떄 
         if (score > 6)
@@ -155,18 +155,6 @@ public class GO_STOP : MonoBehaviour
                 gostop = true;
             }
         }
-
-        if (index == 0)
-        {
-            p1score = score;
-            p1GoCount = goCount;
-        }
-        else if (index == 1)
-        {
-            p2score = score;
-            p2GoCount = goCount;
-        }
-
     }
 
     public List<string> double_Check(List<GameObject> otherscore, int pee_score, int kwang_score, int yeal_count)

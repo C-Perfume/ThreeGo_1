@@ -17,8 +17,8 @@ public class ScoreUI : MonoBehaviour
     Text score1event;
     Text score2event;
 
-    int go1count = 0;
-    int go2count = 0;
+    public int go1count = 0;
+    public int go2count = 0;
 
     int score1;
     int score2;

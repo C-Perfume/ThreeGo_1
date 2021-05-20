@@ -30,7 +30,8 @@ public class SoundManager : MonoBehaviour
         EFT_pack,//
         EFT_clean,//
         
-        EFT_takecakd, //
+        EFT_takecakd,
+        EFT_take_twocakd, //
         EFT_nagari,//
 
         EFT_tictok // 

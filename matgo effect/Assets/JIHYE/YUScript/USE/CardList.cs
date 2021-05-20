@@ -67,7 +67,9 @@ public class CardList : MonoBehaviour
     IEnumerator Start_Setting()
     {
         Suff_Pea();//카드섞고
+        yield return new WaitForSeconds(1.5f);
         Card_Share();//카드배치 동시에 
+        
         yield return new WaitForSeconds(1);
         FloorArray();//바닥정렬
         PlayerArray(0);//플레이어1 정렬
@@ -75,30 +77,30 @@ public class CardList : MonoBehaviour
     }
     void Suff_Pea()
     {
-        /*국진 확인용*/
+        /*국진 확인용
         GameObject y = pea[0];
         pea[0] = pea[32];
-        pea[32] = y;
+        pea[32] = y;*/
         
 
         for (int i = 0; i < 100; i++)
         {
-            int a = UnityEngine.Random.Range(1, pea.Count);
-            int b = UnityEngine.Random.Range(1, pea.Count);
+            int a = UnityEngine.Random.Range(4, pea.Count);
+            int b = UnityEngine.Random.Range(4, pea.Count);
 
             GameObject x = pea[a];
             pea[a] = pea[b];
             pea[b] = x;
         }
 
-        /* 폭탄 위한 설정  
+        /* 폭탄 위한 설정  */
         for(int i = 0; i < 3; i++)
         {
             GameObject t = pea[i];
             pea[i] = pea[i + 5];
             pea[i + 5] = t;
         }
-        */
+        
     }
     void Card_Share()
     {
@@ -106,6 +108,7 @@ public class CardList : MonoBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
+            SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg);
                 iTween.MoveTo(pea[0], Empty_floor_Slot[0].position,1);
                 //pea[0].transform.position = floorSlot[i + a * 4].pos; //이동시키고
                 floor_Slot.Add(Empty_floor_Slot[0]);
@@ -115,6 +118,7 @@ public class CardList : MonoBehaviour
             }
             for (int i = 0; i < 5; i++)
             {
+            SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg);
 
                 Card c = pea[0].GetComponent<Card>();
                 c.player_index = 0;
@@ -125,6 +129,7 @@ public class CardList : MonoBehaviour
             }
             for (int i = 0; i < 5; i++)
             {
+            SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg);
                 Card c = pea[0].GetComponent<Card>();
                 c.player_index = 1;
                 iTween.MoveTo(pea[0], player2_Slot[i + a * 5].position, 1);
@@ -145,12 +150,14 @@ public class CardList : MonoBehaviour
                 Card cardj = floor[j].GetComponent<Card>();
                 if (cardi.moon == cardj.moon)//같은 달이면 
                 {
+
                     for (int k = 0; k < floor_Slot.Count; k++)
                     {
                         Vector3 pos = floor[j].transform.position;
                         //floor[j]의 위치가 floor_Slot의 포함 되어있다면
                         if (pos == floor_Slot[k].position)
                         {
+                            SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg);
                             //floor[j]의 기존 위치는 빈바닥 리스트에 포함하고 바닥 위치 리스트에서 뺸다.  
                             Empty_floor_Slot.Add(floor_Slot[k]);
                             floor_Slot.Remove(floor_Slot[k]);
@@ -188,6 +195,7 @@ public class CardList : MonoBehaviour
             {
                 if (player[j].GetComponent<Card>().moon > player[j + 1].GetComponent<Card>().moon)
                 {
+                    SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ssg);
                     GameObject phand = player[j];
                     player[j] = player[j + 1];
                     player[j + 1] = phand;

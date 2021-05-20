@@ -521,9 +521,11 @@ public class GoStopRule : MonoBehaviour
             if (poop.GetComponent<Card>().moon == toilet[i])
             {
                 print("내가 쌌지!두장줘!");
+                SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_take_twocakd);
                 return 2;
             }
         }
+        SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_takecakd);
         return 1;
     }
 
@@ -562,6 +564,7 @@ public class GoStopRule : MonoBehaviour
         Move_to_List(same, floor, a);
         yield return new WaitForSeconds(1);
         //삐뻇어오고
+        SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_takecakd);
         Take_Pee(otherscore, 1, a);
         if (Is_GukJin(bomb[0], bomb[1]) || Is_GukJin(bomb[2], same)) 
         {
@@ -705,7 +708,9 @@ public class GoStopRule : MonoBehaviour
                     //각카드 점수리스트로 이동 및 각 자리로 구분되어 이동 
                     Move_to_List(player, playerhand,index);
                     Move_to_List(deck, pea,index);
+                    yield return new WaitForSeconds(0.5f);
                     //패뻇어오기 
+                    SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_takecakd);
                     Take_Pee(other_score, 1, index);
                     if (Is_GukJin(deck, player)) 
                     {
@@ -778,6 +783,7 @@ public class GoStopRule : MonoBehaviour
                     Move_to_List(samefloorCard[1],  floor,index);
                     yield return new WaitForSeconds(1);
                     //패뻇어오기 
+                    SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_takecakd);
                     Take_Pee(other_score, 1, index);
 
                     if (Is_GukJin(player, deck) || Is_GukJin(samefloorCard[0], samefloorCard[1])) 
