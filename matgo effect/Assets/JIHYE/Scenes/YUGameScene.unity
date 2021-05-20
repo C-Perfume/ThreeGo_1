@@ -7721,7 +7721,19 @@ MonoBehaviour:
   goAudio: {fileID: 71486645}
   eventsAudio: {fileID: 71486645}
   bgms: []
-  efts: []
+  efts:
+  - {fileID: 8300000, guid: 5a35611f2bd0bd242a96bff5df4c63df, type: 3}
+  - {fileID: 8300000, guid: 6e8772b49f34d402a90016ed445d8a2f, type: 3}
+  - {fileID: 8300000, guid: b99da9a57308d4ba1bee1cf1d9038376, type: 3}
+  - {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  - {fileID: 8300000, guid: c2acc8486b043e741bc0d0cd0c6ec47f, type: 3}
   go:
   - {fileID: 8300000, guid: af54b5299365b2e47bfc85b6b2eb4f6f, type: 3}
   - {fileID: 8300000, guid: bf16576707576f24aa7b2370b96d3e95, type: 3}
