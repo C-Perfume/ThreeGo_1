@@ -295,11 +295,14 @@ public class GoStopRule : MonoBehaviour
             //각각의 단이 몇장인지 세고
             for (int i = 0; i < TeeList.Count; i++)
             {
-                int state =  (int)TeeList[i].GetComponent<Card>().state;
+                int state = 0;
+                state =  (int)TeeList[i].GetComponent<Card>().state;
                 //청단 3 //홍단 4//초단 5
                 switch (state)
                 {
-                    case 3:
+                    case 0:
+                        break;
+                    case 3: 
                         cheong++;
                         break;
                     case 4:
@@ -316,19 +319,19 @@ public class GoStopRule : MonoBehaviour
             if (cheong == 3)
             {
                 tee_score += 3;
-                EventManager.instance.ChoungEFT();
+                EventManager.instance.ChoungEFT(a);
             }
             //홍단이 3장이면 3점 추가 
             if (hong == 3)
             { 
                 tee_score += 3;
-                EventManager.instance.HongEFT();
+                EventManager.instance.HongEFT(a);
             }
             //초단이 3장이면 3점 추가
             if (cho == 3)
             {
                tee_score += 3;
-                EventManager.instance.ChoEFT();
+                EventManager.instance.ChoEFT(a);
             }
 
         }
@@ -356,7 +359,7 @@ public class GoStopRule : MonoBehaviour
             if (godori == 3)
             { 
                 yeal_score += 5; //고도리 3장이면 5점
-                EventManager.instance.GodoriEFT();
+                EventManager.instance.GodoriEFT(a);
             }
         }
 
@@ -389,20 +392,20 @@ public class GoStopRule : MonoBehaviour
             running_score += pee_score;
             //추가 고점수 추가 예정. 
         }
-        //print((a+1)+"플레이어:"+running_score );
 
         //위치 배치  
         StartCoroutine( ScoreBord(a, addobj, GangList, TeeList, YealList, PeeList) );
 
-        int score = running_score;
+        GO_STOP.instance.ReciveScore(a,YealList.Count, pee_score, gang_score);
 
+        ScoreUI.instance.Get_Count(running_score , a);
         if (a == 0)
         {
-            p1_Score = score;
+            p1_Score = running_score;
         }
         else if (a == 1)
         {
-            p2_Score = score;
+            p2_Score = running_score;
         }
 
         //return running_score;
@@ -459,7 +462,6 @@ public class GoStopRule : MonoBehaviour
     public void Boming(GameObject back ,GameObject deck,int a)
     {
         Move_to_Emptyfloor(back);
-        Destroy(back, 1);
         List<GameObject> otherscore = new List<GameObject>();
         if (a == 0)
         {
@@ -475,7 +477,17 @@ public class GoStopRule : MonoBehaviour
     }
     public void Boming(List<GameObject> bomb,GameObject same,int a, GameObject deck)
     {
+        List<GameObject> otherscore = new List<GameObject>();
+        if (a == 0)
+        {
+            otherscore = player2_score;
+        }
+        else if (a == 1)
+        {
+            otherscore = player1_score;
+        }
         StartCoroutine( bombTurn(bomb, same, a,deck));
+        GO_STOP.instance.TurnOver(0, otherscore);
     }
 
 
@@ -556,6 +568,8 @@ public class GoStopRule : MonoBehaviour
             //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
             //ChoiceCard.instance.Ques_Gukjin(1);
         }
+
+        GO_STOP.instance.TurnOver(0, otherscore);
     }
 
     public IEnumerator DeckTurn(GameObject deck,List<GameObject> other_score,int index)
@@ -825,6 +839,8 @@ public class GoStopRule : MonoBehaviour
                 break;
         }
 
+
+        GO_STOP.instance.TurnOver(0, other_score);
         { 
         if (index == 0)
         {

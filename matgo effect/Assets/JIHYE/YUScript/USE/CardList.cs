@@ -69,40 +69,38 @@ public class CardList : MonoBehaviour
     IEnumerator Start_Setting()
     {
         Suff_Pea();//카드섞고
-        yield return new WaitForSeconds(1);
         Card_Share();//카드배치 동시에 
         yield return new WaitForSeconds(1);
         FloorArray();//바닥정렬
-        yield return new WaitForSeconds(1);
         PlayerArray(0);//플레이어1 정렬
         PlayerArray(1);//플레이어2 정렬
     }
     void Suff_Pea()
     {
-        /*국진 확인용*/
+        /*국진 확인용
         GameObject y = pea[0];
         pea[0] = pea[32];
         pea[32] = y;
-        
+        */
 
         for (int i = 0; i < 100; i++)
         {
-            int a = UnityEngine.Random.Range(1, pea.Count);
-            int b = UnityEngine.Random.Range(1, pea.Count);
+            int a = UnityEngine.Random.Range(4, pea.Count);
+            int b = UnityEngine.Random.Range(4, pea.Count);
 
             GameObject x = pea[a];
             pea[a] = pea[b];
             pea[b] = x;
         }
 
-        /* 폭탄 위한 설정  
+        /* 폭탄 위한 설정  */
         for(int i = 0; i < 3; i++)
         {
             GameObject t = pea[i];
-            pea[i] = pea[i + 10];
-            pea[i + 10] = t;
+            pea[i] = pea[i + 5];
+            pea[i + 5] = t;
         }
-        */
+        
     }
     void Card_Share()
     {
@@ -236,7 +234,7 @@ public class CardList : MonoBehaviour
                         List<GameObject> samefloor1card = GoStopRule.instance.LiST_SameFloor(obj);
                         GoStopRule.instance.Turnplayer1(samefloor1card, obj, pea[0]);
                         //print("1플레이어" + GoStopRule.instance.p1_Score + "점");
-                        GO_STOP.instance.TurnOver(0,player2);
+                        //GO_STOP.instance.TurnOver(0,player2);
                     }
                     else if (samehand.Count == 3)
                     {
@@ -254,8 +252,6 @@ public class CardList : MonoBehaviour
                                 back.transform.position = player1_Slot[10+i].position;
                                 player1.Add(back);
                             }
-                            //print("1플레이어" + GoStopRule.instance.p1_Score + "점");
-                            GO_STOP.instance.TurnOver(0, player2);
                         }
                         else//흔들
                         {
@@ -263,10 +259,14 @@ public class CardList : MonoBehaviour
                             print("흔들어써요오");
                             //선택됨 카드한장 내고 게임 진행
                             GoStopRule.instance.Turnplayer1(samefloor, obj, pea[0]);
-                            //print("1플레이어" + GoStopRule.instance.p1_Score + "점");
-                            GO_STOP.instance.TurnOver(0, player2);
                         }
                     }
+                    else if (samehand.Count == 0 && obj.GetComponent<Card>().moon == 13)
+                    {
+                        GoStopRule.instance.Boming(obj, pea[0], 0);
+                        Destroy(obj);
+                    }
+                    //GO_STOP.instance.TurnOver(0, player2);
                     print("1플레이어" + GoStopRule.instance.p1_Score + "점");
                 }
                 if (player2.Contains(obj))
@@ -280,13 +280,13 @@ public class CardList : MonoBehaviour
                         List<GameObject> samefloor2card = GoStopRule.instance.LiST_SameFloor(obj);
                         GoStopRule.instance.Turnplayer2(samefloor2card, obj, pea[0]);
                         //print("2플레이어" + GoStopRule.instance.p2_Score + "점");
-                        GO_STOP.instance.TurnOver(1, player1);
+
                     }
                     else if (samehand.Count == 3)
                     {
                         //바닥에 카드가있으면 폭탄이구 / 없으면 흠들이야 헤헷  
                         List<GameObject> samefloor = GoStopRule.instance.LiST_SameFloor(obj);
-                        if (samefloor.Count!=0)//폭탄
+                        if (samefloor.Count != 0)//폭탄
                         {
                             //폭탄 
                             print("폭탄이요~");
@@ -297,8 +297,6 @@ public class CardList : MonoBehaviour
                                 GameObject back = Instantiate(back_card);
                                 back.transform.position = player2_Slot[10 + i].position;
                             }
-                            //print("2플레이어" + GoStopRule.instance.p1_Score + "점");
-                            GO_STOP.instance.TurnOver(1, player1);
                         }
                         else//흔들
                         {
@@ -307,11 +305,15 @@ public class CardList : MonoBehaviour
                             print(x + "흔들었어요");
                             //선택됨 카드한장 내고 게임 진행
                             GoStopRule.instance.Turnplayer2(samefloor, obj, pea[0]);
-                            //print("2플레이어" + GoStopRule.instance.p1_Score + "점");
-                            GO_STOP.instance.TurnOver(1, player1);
                         }
                     }
-                    print("2플레이어" + GoStopRule.instance.p1_Score + "점");
+                    else if (samehand.Count == 0 && obj.GetComponent<Card>().moon == 13)
+                    {
+                        GoStopRule.instance.Boming(obj, pea[0], 1);
+                        Destroy(obj);
+                    }
+                    //GO_STOP.instance.TurnOver(1, player1);
+                    //print("2플레이어" + GoStopRule.instance.p1_Score + "점");
                 }
             }
         }
