@@ -30,8 +30,6 @@ public class CardList : MonoBehaviour
     public List<GameObject> player1 = new List<GameObject>();//손에 들고있는패
     public List<GameObject> player2 = new List<GameObject>();
     public List<GameObject> floor = new List<GameObject>();//바닥에 깔린패
-                                                           //바닥에 깔렸는데 같은 패라서 위에 겹쳐진 
-
 
     public List<GameObject> Player1_Score = new List<GameObject>();//접수판으로가져온패
     public List<GameObject> Player2_Score = new List<GameObject>();
@@ -77,30 +75,30 @@ public class CardList : MonoBehaviour
     }
     void Suff_Pea()
     {
-        /*국진 확인용
+        /*국진 확인용*/
         GameObject y = pea[0];
         pea[0] = pea[32];
         pea[32] = y;
-        */
+        
 
         for (int i = 0; i < 100; i++)
         {
-            int a = UnityEngine.Random.Range(4, pea.Count);
-            int b = UnityEngine.Random.Range(4, pea.Count);
+            int a = UnityEngine.Random.Range(1, pea.Count);
+            int b = UnityEngine.Random.Range(1, pea.Count);
 
             GameObject x = pea[a];
             pea[a] = pea[b];
             pea[b] = x;
         }
 
-        /* 폭탄 위한 설정  */
+        /* 폭탄 위한 설정  
         for(int i = 0; i < 3; i++)
         {
             GameObject t = pea[i];
             pea[i] = pea[i + 5];
             pea[i + 5] = t;
         }
-        
+        */
     }
     void Card_Share()
     {
@@ -160,7 +158,7 @@ public class CardList : MonoBehaviour
                         }
                     }
                     //비교 오브젝트가 같으면 기준 오브젝트 위치보다 조금 옆에 둔다.
-                    floor[j].transform.position = floor[i].transform.position + new Vector3(0.2f, 0, 0);
+                    floor[j].transform.position = floor[i].transform.position + new Vector3(0.05f, 0, 0);
                     print(j + "는" + cardi.moon + "같은달");
                 }
             }
