@@ -55,7 +55,7 @@ public class GoStopRule : MonoBehaviour
         player2_scorebord = CardList.instance.player2_ScoreBord;
     }
 
-
+    /*
     //지금은 카운트 수만 세지만 
     //나중에는 리스트도 리턴하면 좋겠다 리스트 리터언(같은 카드). 
     public int Count_SameFloor(GameObject obj)
@@ -69,7 +69,8 @@ public class GoStopRule : MonoBehaviour
             }
         }
         return Count;
-    }
+    }*/
+
 
     public List<GameObject> LiST_SameFloor(GameObject obj)
     {
@@ -85,9 +86,10 @@ public class GoStopRule : MonoBehaviour
     }
 
     //카드 위치 이동 함수 
-    public void Move_to_pos(GameObject card ,Vector3 pos)
-    {
+     void Move_to_pos(GameObject card ,Vector3 pos)
+     { 
         iTween.MoveTo(card,pos,0.5f);
+        SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_jjak);
         /*
         iTween.MoveTo(card,iTween.Hash(
             "delay",0.2f,
@@ -103,6 +105,7 @@ public class GoStopRule : MonoBehaviour
             "position", empty_floor_slot[0].position,
             "time", 0.5f,
             "easetype", iTween.EaseType.easeOutBack));
+        SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_tuk);
         floor_slot.Add(empty_floor_slot[0]);
         empty_floor_slot.RemoveAt(0);
     }
@@ -717,7 +720,6 @@ public class GoStopRule : MonoBehaviour
                     StartCoroutine(DeckTurn(deck, other_score, index));
                     //플레이어가 낸카드는 바닥 카드리스트에 추가하고 내카드에서 지운다.-리스트 이동 
                     Move_to_List(player, floor, playerhand);
-                    
                 }
                 break;
             case 1: ///바닥에 맞는 카드가 하나일 떄
@@ -840,7 +842,6 @@ public class GoStopRule : MonoBehaviour
         }
 
 
-        GO_STOP.instance.TurnOver(0, other_score);
         { 
         if (index == 0)
         {
@@ -856,6 +857,7 @@ public class GoStopRule : MonoBehaviour
             player2_score = player_score;
             player1_score = other_score;
         }
+        GO_STOP.instance.TurnOver(0, other_score);
         }//점수 결과 전달
     }
 }
