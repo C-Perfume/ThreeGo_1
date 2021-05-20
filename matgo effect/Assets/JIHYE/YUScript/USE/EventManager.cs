@@ -81,11 +81,12 @@ public class EventManager : MonoBehaviour
         ChoungCount = true;
     }
 
-    public void GodoriEFT()
+    public void GodoriEFT(int a)
     {
         if (godoriCount)
         {
             //SoundManager.instance.AddPointer(SoundManager.AddPoint.EFT_godori);
+            ScoreUI.instance.Get_Count("고도리" , a);
             godori.SetActive(true);
             print("고도리~~");
             Destroy(godori, 5);
@@ -93,11 +94,12 @@ public class EventManager : MonoBehaviour
         godoriCount = false;
     }
 
-    public void HongEFT()
+    public void HongEFT(int a)
     {
         if (HongCount)
         {
             //SoundManager.instance.AddPointer(SoundManager.AddPoint.EFT_hongdan);
+            ScoreUI.instance.Get_Count("홍단", a);
             hong.SetActive(true);
             Debug.Log("홍단 이요~~");
             Destroy(hong, 5);
@@ -105,22 +107,24 @@ public class EventManager : MonoBehaviour
         HongCount = false;
     }
 
-    public void ChoungEFT()
+    public void ChoungEFT(int a)
     {
         if (ChoungCount)
         {
             //SoundManager.instance.AddPointer(SoundManager.AddPoint.EFT_chongdan);
+            ScoreUI.instance.Get_Count("청단", a);
             choung.SetActive(true);
             Debug.Log("청단이요");
             Destroy(choung, 5);
         }
         ChoungCount = false;
     }
-    public void ChoEFT()
+    public void ChoEFT(int a)
     {
         if (ChoCount)
         {
             //SoundManager.instance.AddPointer(SoundManager.AddPoint.EFT_chodan);
+            ScoreUI.instance.Get_Count("초단", a);
             cho.SetActive(true);
             Debug.Log("초단!");
             Destroy(cho, 5);
