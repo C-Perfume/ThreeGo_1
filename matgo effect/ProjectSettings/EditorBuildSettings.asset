@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
+    path: Assets/Star/Scenes/title.unity
+    guid: 8c4969fd8ba94a68b07cf11f3e7a5137
+  - enabled: 1
     path: Assets/Star/Scenes/StarMatgo.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1

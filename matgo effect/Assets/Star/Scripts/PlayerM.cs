@@ -360,7 +360,7 @@ public class PlayerM : MonoBehaviour
         }
 
         if (sc.gdr == 1) { eft.PlayEFT(24, gameObject, .1f);
-            eft.PlayEFT(18, gameObject, 0.05f, 5);
+            eft.PlayEFT(18, gameObject, 0.05f,5);
             eft.PlayEFTM(Effect.EFT_TYPE.EFT_GDR); sc.gdr = 100;
         }
         if (sc.r == 1) { eft.PlayEFT(25, gameObject, .1f);
