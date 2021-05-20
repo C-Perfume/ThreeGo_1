@@ -5,7 +5,7 @@ using UnityEngine;
 public class GoStopRule : MonoBehaviour
 {
     public static GoStopRule instance;
-    Vector3 addpos = new Vector3(0.3f,0,0);
+    Vector3 addpos = new Vector3(0.05f,0,0);
     public List<GameObject> floor;
     public List<GameObject> pea;
     //public List<GameObject> player1;
@@ -399,9 +399,7 @@ public class GoStopRule : MonoBehaviour
         //위치 배치  
         StartCoroutine( ScoreBord(a, addobj, GangList, TeeList, YealList, PeeList) );
 
-        GO_STOP.instance.ReciveScore(a,YealList.Count, pee_score, gang_score);
 
-        ScoreUI.instance.Get_Count(running_score , a);
         if (a == 0)
         {
             p1_Score = running_score;
@@ -411,6 +409,8 @@ public class GoStopRule : MonoBehaviour
             p2_Score = running_score;
         }
 
+        ScoreUI.instance.Get_Count(running_score , a);
+        GO_STOP.instance.ReciveScore(a,YealList.Count, pee_score, gang_score);
         //return running_score;
     }
     //점수판 위치 배치 함수 만들기. 
@@ -625,8 +625,7 @@ public class GoStopRule : MonoBehaviour
                     yield return new WaitForSeconds(1.5f);
                     //ChoiceCard.instance.gukjin_selec = true;
                     ChoiceCard.instance.Ques_Gukjin(index);
-                    //yield return new WaitForSeconds(3);//3초안에 선택안하면 그냥 꺼짐 
-                    //ChoiceCard.instance.Ques_Gukjin(1);
+
                 }
                 break;
             case 3:
@@ -635,6 +634,7 @@ public class GoStopRule : MonoBehaviour
                 //==  //똥먹기 이벤트 발생 
                 //EventManager.instance.DeckEvent(EventManager.Play_Event.eatting_ddong);
                 print("이 똥은 내가가져간다 ");
+                SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_eatpack);
                 yield return new WaitForSeconds(1);
                 //바닥카드 3장과 덱카드 전부 점수판으로 구분하여 이동
                 //리스트 이동
@@ -700,6 +700,7 @@ public class GoStopRule : MonoBehaviour
                     //==//     //쪽이벤트 발생
                     //EventManager.instance.PlayerEvent(EventManager.Play_Event.kiss);
                     print("쪽~~~");//나중에 자리선정하기 
+                    SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_kiss);
                     yield return new WaitForSeconds(1);
                     //각카드 점수리스트로 이동 및 각 자리로 구분되어 이동 
                     Move_to_List(player, playerhand,index);
@@ -730,7 +731,8 @@ public class GoStopRule : MonoBehaviour
                 {
                     //덱카드 위치 내카드 위로 이동 
                     Move_to_pos(deck, player.transform.position + addpos);
-              //==  //똥싸기 이벤트 발생
+                    //==  //똥싸기 이벤트 발생
+                    SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_pack);
                     //EventManager.instance.DeckEvent(EventManager.Play_Event.ddong);
                     print("쌌다..");
                     toilet.Add(deck.GetComponent<Card>().moon);
@@ -766,6 +768,7 @@ public class GoStopRule : MonoBehaviour
                     //==  //따닥 이벤트 발생 
                     //EventManager.instance.PlayerEvent(EventManager.Play_Event.ddadack);
                     print("이게 무슨일이야~ 따닥! ");
+                    SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_ddadak);
                     //내가 낸카드 바닥의 카드 2장 덱카드 모두 점수판으로 위치 구분 이동
                     yield return new WaitForSeconds(1);
                     //낸카드 바닥 2장 덱카드 모두 점수판 리스트로 이동
@@ -816,6 +819,7 @@ public class GoStopRule : MonoBehaviour
                 //== //똥먹기 이벤트 발생
                 //EventManager.instance.PlayerEvent(EventManager.Play_Event.eatting_ddong);
                 print("이똥 누구똥이여");
+                SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_eatpack);
                 yield return new WaitForSeconds(1);
                 StartCoroutine(DeckTurn(deck, other_score, index));
                 //플레이어 3장 카드와 낸카드 리스트 점수 리스트로 이동

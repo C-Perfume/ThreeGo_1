@@ -7,7 +7,7 @@ public class GO_STOP : MonoBehaviour
 {
     public static GO_STOP instance;
     public GameObject canvas;
-    public Text readyGo;
+    bool gostop;
     int p1score;
     int p2score;
 
@@ -30,9 +30,6 @@ public class GO_STOP : MonoBehaviour
     int yeal1_count;
     int yeal2_count;
 
-    bool Go_mind = true;
-    bool OnClick = false;
-
     public GameObject finalCanvas;
     Text double_Event;
     Text score_text;
@@ -54,66 +51,81 @@ public class GO_STOP : MonoBehaviour
         finalCanvas.SetActive(false);
     }
 
-    
+
     void Update()
     {
         int scoreLine = 0;
         p1score = GoStopRule.instance.p1_Score;
         p2score = GoStopRule.instance.p2_Score;
 
-        if (!canvas)
+        if (!gostop)
         {
             return;
         }
         else
         {
-            if (OnClick)
+            canvas.SetActive(true);
+            if (Input.GetMouseButtonDown(0))
+            { 
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
             {
-                //고한다고 하면.
-                if (Go_mind)
+
+                GameObject obj = hit.transform.gameObject;
+                if (obj.CompareTag("ChoiceCard"))
                 {
-                    print("고 했다");
-                    preScore = score;
-                    goCount++;
-                    canvas.SetActive(false);
-                    ScoreUI.instance.GoCount(goCount, index);
-                    SoundManager.instance.PlayGo(goCount);
-                    OnClick = false;
-                }
-                else if (!Go_mind)
-                {
-                    finalCanvas.SetActive(true);
-                    double_Event = finalCanvas.transform.GetChild(1).gameObject.GetComponent<Text>();
-                    score_text = finalCanvas.transform.GetChild(2).gameObject.GetComponent<Text>();
-                    double_Event.text = " ";
-                    print("게임끝");
-                    //게임종료 
-                    List<string> doubles = double_Check(otherlist, pee_score, kwang_score, yealCount);
-                    int dou = 1;
-                    for (int i = 0; i < doubles.Count; i++)
+                    if (obj.name.Contains("A"))
                     {
-                        dou *= 2;
-                    }
-                    //최종 점수는  = (점수 + 고로 인한 점수 )* 박에 의한 곱셈.
-                    // 최종 점수 확인 , 곱하지 점수들 끌어다가 죄종 점수 계산하기. 
-                    scoreLine = (score + goCount) * dou;
-
-                    for (int i = 0; i < doubles.Count; i++)
+                        print("고 했다");
+                        preScore = score;
+                        goCount++;
+                        canvas.SetActive(false);
+                        ScoreUI.instance.GoCount(goCount, index);
+                        SoundManager.instance.PlayGo(goCount);
+                            gostop = false;
+                        }
+                    else if (obj.name.Contains("B"))
                     {
-                        double_Event.text += " " + doubles[i] + " ";
+                        print("스돕");
+                        finalCanvas.SetActive(true);
+                        double_Event = finalCanvas.transform.GetChild(1).gameObject.GetComponent<Text>();
+                        score_text = finalCanvas.transform.GetChild(2).gameObject.GetComponent<Text>();
+                        double_Event.text = " ";
+                        print("게임끝");
+                        //게임종료 
+                        List<string> doubles = double_Check(otherlist, pee_score, kwang_score, yealCount);
+                        int dou = 1;
+                        for (int i = 0; i < doubles.Count; i++)
+                        {
+                            dou *= 2;
+                        }
+                        //최종 점수는  = (점수 + 고로 인한 점수 )* 박에 의한 곱셈.
+                        // 최종 점수 확인 , 곱하지 점수들 끌어다가 죄종 점수 계산하기. 
+                        scoreLine = (score + goCount) * dou;
+
+                        for (int i = 0; i < doubles.Count; i++)
+                        {
+                            double_Event.text += " " + doubles[i] + " ";
+                        }
+
+                        score_text.text = " ( " + score.ToString() + "+" + goCount.ToString() + ") x "
+                            + dou.ToString() + " = " + scoreLine.ToString();
+                            gostop = false;
                     }
-
-                    score_text.text = " ( " + score.ToString() + "+" + goCount.ToString() + ") x "
-                        + dou.ToString() + " = " + scoreLine.ToString();
-                    OnClick = false;
                 }
-            }
-        }
+               }
+
+              }
 
 
-    }
 
-    public void TurnOver(int index,List<GameObject> other)
+         }
+
+
+     }
+
+    public void TurnOver(int index, List<GameObject> other)
     {
         otherlist = other;
         if (index == 0)
@@ -140,11 +152,7 @@ public class GO_STOP : MonoBehaviour
         {
             if (score > preScore)
             {
-                canvas.SetActive(true);
-                //yield return new WaitForSeconds(5f);
-                //시간 지나도 선택안하면 자동고
-                //고할지 스돕할지 물어본다. 
-                
+                gostop = true;
             }
         }
 
@@ -161,10 +169,10 @@ public class GO_STOP : MonoBehaviour
 
     }
 
-    public List<string> double_Check(List<GameObject> otherscore ,int pee_score,int kwang_score , int yeal_count)
+    public List<string> double_Check(List<GameObject> otherscore, int pee_score, int kwang_score, int yeal_count)
     {
         List<string> double_event = new List<string>();
-     
+
         List<GameObject> otpee = new List<GameObject>();
         List<GameObject> otkwang = new List<GameObject>();
 
@@ -187,23 +195,23 @@ public class GO_STOP : MonoBehaviour
         //광박
         if (otkwang.Count == 0 && kwang_score >= 3)
         {
-            double_event.Add("광박");           
+            double_event.Add("광박");
         }
         //피박
-        if (otpee.Count >= 1 && otpee.Count <=6 && pee_score >=1)
+        if (otpee.Count >= 1 && otpee.Count <= 6 && pee_score >= 1)
         {
-            double_event.Add("피박");               
+            double_event.Add("피박");
         }
         //멍박일떄, 
-        if ( yeal_count >= 7 )
+        if (yeal_count >= 7)
         {
-            double_event.Add("멍박"); 
+            double_event.Add("멍박");
         }
         return double_event;
     }
 
 
-    public void ReciveScore(int a,int yealCount,int pee_score,int kwang_score)
+    public void ReciveScore(int a, int yealCount, int pee_score, int kwang_score)
     {
         if (a == 0)
         {
@@ -219,18 +227,5 @@ public class GO_STOP : MonoBehaviour
         }
     }
 
-    public void OnClick_GO()
-    {
-        OnClick = true;
-        Go_mind = true;
-        readyGo.text = "Go";
-        canvas.SetActive(false);
-    }
-    public void OnClick_Stop()
-    {
-        OnClick = true;
-        Go_mind = false;
-        readyGo.text = "Stop";
-        canvas.SetActive(false);
-    }
+
 }

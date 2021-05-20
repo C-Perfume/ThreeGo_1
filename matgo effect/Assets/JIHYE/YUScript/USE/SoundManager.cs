@@ -30,8 +30,11 @@ public class SoundManager : MonoBehaviour
         EFT_pack,//
         EFT_clean,//
         
-        EFT_takecakd,//
-        EFT_nagari
+        EFT_takecakd, //
+        EFT_nagari,//
+
+        EFT_tictok // 
+       
     }
 
     //불필요한 이넘 들 하지만 나중에 파티클을위해 !!3광의 각각을 관리할수도
