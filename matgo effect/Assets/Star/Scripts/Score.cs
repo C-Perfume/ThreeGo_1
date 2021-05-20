@@ -225,11 +225,11 @@ public class Score : MonoBehaviour
                 }
 
                
-                if (g13811 == 4) { eft.PlayEFT(18, gameObject, .05f); g13811 = 100; }
-                if (g13812 == 4) { eft.PlayEFT(19, gameObject, .05f); g13812 = 100; }
-                if (g131112 == 4) { eft.PlayEFT(20, gameObject, .05f); g131112 = 100; }
-                if (g181112 == 4) { eft.PlayEFT(21, gameObject, .05f); g181112 = 100; }
-                if (g381112 == 4) { eft.PlayEFT(22, gameObject, .05f); g381112 = 100; }
+                if (g13811 == 4) { eft.PlayEFT(18, gameObject, .1f); g13811 = 100; }
+                if (g13812 == 4) { eft.PlayEFT(19, gameObject, .1f); g13812 = 100; }
+                if (g131112 == 4) { eft.PlayEFT(20, gameObject, .1f); g131112 = 100; }
+                if (g181112 == 4) { eft.PlayEFT(21, gameObject, .1f); g181112 = 100; }
+                if (g381112 == 4) { eft.PlayEFT(22, gameObject, .1f); g381112 = 100; }
 
             }
 
@@ -261,10 +261,10 @@ public class Score : MonoBehaviour
                     { g1311++; g1811++; g3811++; break; }
                 }
 
-                if (g138 == 4) { eft.PlayEFT(14, gameObject, .05f); g138 = 100; }
-                if (g1311 == 4) { eft.PlayEFT(15, gameObject, .05f); g1311 = 100; }
-                if (g1811 == 4) { eft.PlayEFT(16, gameObject, .05f); g1811 = 100; }
-                if (g3811 == 4) { eft.PlayEFT(17, gameObject, .05f); g3811 = 100; }
+                if (g138 == 4) { eft.PlayEFT(14, gameObject, .1f); g138 = 100; }
+                if (g1311 == 4) { eft.PlayEFT(15, gameObject, .1f); g1311 = 100; }
+                if (g1811 == 4) { eft.PlayEFT(16, gameObject, .1f); g1811 = 100; }
+                if (g3811 == 4) { eft.PlayEFT(17, gameObject, .1f); g3811 = 100; }
 
             }
 
@@ -392,10 +392,10 @@ public class Score : MonoBehaviour
                     plus++;
                 }
 
-                if (gdr == 0) { eft.PlayEFT(24, gm.zero.gameObject, .05f); }
-                if (r == 0) { eft.PlayEFT(25, gm.zero.gameObject, .05f); }
-                if (g == 0) { eft.PlayEFT(26, gm.zero.gameObject, .05f); }
-                if (b == 0) { eft.PlayEFT(27, gm.zero.gameObject, .05f); }
+                if (gdr == 1) { eft.PlayEFT(24, gm.zero.gameObject, .1f); }
+                if (r == 1) { eft.PlayEFT(25, gm.zero.gameObject, .1f); }
+                if (g == 1) { eft.PlayEFT(26, gm.zero.gameObject, .1f); }
+                if (b == 1) { eft.PlayEFT(27, gm.zero.gameObject, .1f); }
             }
 
 

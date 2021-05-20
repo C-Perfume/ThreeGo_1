@@ -67,8 +67,9 @@ public class AR : MonoBehaviour
             if (indi.activeSelf)
             {
                 obj.SetActive(true);
-                obj.transform.SetPositionAndRotation(indi.transform.position, indi.transform.rotation);
+                obj.transform.SetPositionAndRotation(indi.transform.position+Vector3.forward*0.1f, indi.transform.rotation);
                 indi.SetActive(false);
+                ground.SetActive(false);
                 info.rectTransform.gameObject.SetActive(false);
                 enabled = false;
             }
