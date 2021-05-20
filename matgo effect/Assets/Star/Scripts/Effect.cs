@@ -51,9 +51,75 @@ public class Effect : MonoBehaviour
     }
 
     public List<GameObject> eftL;
+    public List<GameObject> eftF;
     public GameObject[] cards;
     
     public EFT type;
+
+    public enum BGM // 효과음
+    {
+        TitleM,
+        BGM,
+    }
+    // EFT 종류
+    public enum EFT_TYPE // 효과음
+    {
+        TitleM,
+        BGM,
+
+        EFT_ssg,//
+        EFT_jjak,//
+        EFT_tuk,//
+
+        EFT_eatpack,//
+
+        EFT_kiss,//
+        EFT_bomb,//
+        EFT_ddadak,//
+        EFT_shaking,//
+        EFT_pack,//
+        EFT_clean,//
+
+        EFT_takecakd,//
+        EFT_nagari
+    }
+
+    public enum Go// 고사운드 
+    {
+        EFT_onego,//
+        EFT_twogo,//
+        EFT_threego,//
+        EFT_fourgo,//
+        EFT_sixgo,//
+        EFT_fivego,//
+        EFT_sevengo,//
+        EFT_eightgo//
+    }
+
+    public enum ETC// 이벤트 사운드 
+    {
+        EFT_godori,
+        EFT_hongdan,
+        EFT_chongdan,
+        EFT_chodan,
+
+        EFT_threegang,
+        EFT_fourgang,
+        EFT_fivegang,
+    }
+
+    //EFT 플레이하는 AudioSource
+    public AudioSource bgmAudio;
+    public AudioSource eftAudio;
+    public AudioSource goAudio;
+    public AudioSource eTCAudio;
+
+    // eft 파일
+    public AudioClip[] efts;
+    public AudioClip[] go;
+    public AudioClip[] etc;
+
+
 
     private void Awake()
     {
@@ -175,9 +241,29 @@ public class Effect : MonoBehaviour
         card.transform.position = obj2.transform.position;
         card.transform.eulerAngles = new Vector3(40, 0, 0);
     }
-    
-     
 
+
+
+    public void PlayBGM(BGM type)
+    {
+        bgmAudio.PlayOneShot(efts[(int)type]);
+    }
+    public void PlayEFT(EFT_TYPE type)
+    {
+        eftAudio.PlayOneShot(efts[(int)type]);
+    }
+
+    public void PlayGo(int gocount)
+    {
+        print(gocount + "고");
+        goAudio.PlayOneShot(go[gocount - 1]);
+    }
+
+    public void PlayETC(ETC point)
+    {
+        eTCAudio.PlayOneShot(etc[(int)point]);
+        print(point.ToString());
+    }
     void Start()
     {
     
