@@ -37,6 +37,13 @@ public class GO_STOP : MonoBehaviour
     Text double_Event;
     Text score_text;
 
+    int index = -1;
+
+    int yealCount = 0;
+    int kwang_score = 0;
+    int pee_score = 0;
+    List<GameObject> otherlist = new List<GameObject>();
+
     private void Awake()
     {
         instance = this;
@@ -47,29 +54,68 @@ public class GO_STOP : MonoBehaviour
         finalCanvas.SetActive(false);
     }
 
+    
     void Update()
     {
+        int scoreLine = 0;
         p1score = GoStopRule.instance.p1_Score;
         p2score = GoStopRule.instance.p2_Score;
 
+        if (!canvas)
+        {
+            return;
+        }
+        else
+        {
+            if (OnClick)
+            {
+                //고한다고 하면.
+                if (Go_mind)
+                {
+                    print("고 했다");
+                    preScore = score;
+                    goCount++;
+                    canvas.SetActive(false);
+                    ScoreUI.instance.GoCount(goCount, index);
+                    SoundManager.instance.PlayGo(goCount);
+                    OnClick = false;
+                }
+                else if (!Go_mind)
+                {
+                    finalCanvas.SetActive(true);
+                    double_Event = finalCanvas.transform.GetChild(1).gameObject.GetComponent<Text>();
+                    score_text = finalCanvas.transform.GetChild(2).gameObject.GetComponent<Text>();
+                    double_Event.text = " ";
+                    print("게임끝");
+                    //게임종료 
+                    List<string> doubles = double_Check(otherlist, pee_score, kwang_score, yealCount);
+                    int dou = 1;
+                    for (int i = 0; i < doubles.Count; i++)
+                    {
+                        dou *= 2;
+                    }
+                    //최종 점수는  = (점수 + 고로 인한 점수 )* 박에 의한 곱셈.
+                    // 최종 점수 확인 , 곱하지 점수들 끌어다가 죄종 점수 계산하기. 
+                    scoreLine = (score + goCount) * dou;
 
+                    for (int i = 0; i < doubles.Count; i++)
+                    {
+                        double_Event.text += " " + doubles[i] + " ";
+                    }
+
+                    score_text.text = " ( " + score.ToString() + "+" + goCount.ToString() + ") x "
+                        + dou.ToString() + " = " + scoreLine.ToString();
+                    OnClick = false;
+                }
+            }
+        }
 
 
     }
 
     public void TurnOver(int index,List<GameObject> other)
     {
-        
-        StartCoroutine(Chack_Go(index,other));
-    }
-
-
-    public IEnumerator Chack_Go(int index,List<GameObject>otherScore)
-    {
-        int scoreLine = 0;
-        int yealCount = 0;
-        int kwang_score = 0;
-        int pee_score = 0;
+        otherlist = other;
         if (index == 0)
         {
             score = p1score;
@@ -77,7 +123,7 @@ public class GO_STOP : MonoBehaviour
 
             yealCount = yeal1_count;
             pee_score = pee1_score;
-            kwang_score = kwang1_score; 
+            kwang_score = kwang1_score;
         }
         else if (index == 1)
         {
@@ -98,59 +144,21 @@ public class GO_STOP : MonoBehaviour
                 //yield return new WaitForSeconds(5f);
                 //시간 지나도 선택안하면 자동고
                 //고할지 스돕할지 물어본다. 
-                if (OnClick)
-                { 
-                //고한다고 하면.
-                if (Go_mind)
-                {
-                    print("고 했다");
-                    preScore = score;
-                    goCount++;
-                    canvas.SetActive(false);
-                    ScoreUI.instance.GoCount(goCount,index);
-                    SoundManager.instance.PlayGo(goCount);
-                }
-                else if(!Go_mind)
-                {
-                    finalCanvas.SetActive(true);
-                    double_Event = finalCanvas.transform.GetChild(1).gameObject.GetComponent<Text>();
-                    score_text = finalCanvas.transform.GetChild(2).gameObject.GetComponent<Text>();
-                    double_Event.text = " ";
-                    print("게임끝");
-                    //게임종료 
-                    List<string> doubles = double_Check(otherScore, pee_score, kwang_score, yealCount);
-                    int dou = 1;
-                    for (int i = 0; i < doubles.Count; i++)
-                    {
-                        dou *= 2;
-                    }
-                    //최종 점수는  = (점수 + 고로 인한 점수 )* 박에 의한 곱셈.
-                    // 최종 점수 확인 , 곱하지 점수들 끌어다가 죄종 점수 계산하기. 
-                    scoreLine = (score + goCount) * dou;
-
-                    for (int i = 0; i < doubles.Count; i++)
-                    {
-                        double_Event.text += " " + doubles[i] + " ";
-                        yield return new WaitForSeconds(0.2f);
-                    }
-
-                    score_text.text = " ( " + score.ToString() + "+" + goCount.ToString() + ") x " 
-                        + dou.ToString() + " = " + scoreLine.ToString(); 
-                }
-                }
+                
             }
         }
 
         if (index == 0)
         {
-            p1score = score  ;
-            p1GoCount =  goCount;
+            p1score = score;
+            p1GoCount = goCount;
         }
         else if (index == 1)
         {
             p2score = score;
             p2GoCount = goCount;
         }
+
     }
 
     public List<string> double_Check(List<GameObject> otherscore ,int pee_score,int kwang_score , int yeal_count)
