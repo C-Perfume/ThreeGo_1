@@ -5,6 +5,7 @@ using UnityEngine;
 public class Elastic : MonoBehaviour
 {
     public GameObject target;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +18,7 @@ public class Elastic : MonoBehaviour
     {
         iTween.ScaleTo(target, iTween.Hash(
             "delay", 0,
-            "scale", new Vector3(4, 4, 4),
+            "scale", new Vector3(2, 2, 2),
             "time", 3,
             "easetype", iTween.EaseType.easeOutElastic));
     }
