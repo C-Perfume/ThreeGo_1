@@ -4,5 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
-  m_configObjects: {}
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Star/Scenes/StarMatgo.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 1cd84e84c4f85544981504b94907690c, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: ec403aa45f0ce6542bc33b1b46de35ec, type: 2}
