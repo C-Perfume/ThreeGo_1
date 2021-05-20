@@ -20,6 +20,7 @@ public class Come : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.MoveTowards(gameObject.transform.position, target.transform.position, speed);
+        transform.position = transform.position;
     }
 }
 

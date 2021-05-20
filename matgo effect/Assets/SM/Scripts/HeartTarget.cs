@@ -15,7 +15,7 @@ public class HeartTarget : MonoBehaviour
         Vector3 dir = transform.position;
         GameObject exploPos = Instantiate(explosionFactory);
         dir = exploPos.transform.position;
-        
+        //Destroy(explosionFactory.gameObject);
     }
 
 
