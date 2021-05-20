@@ -126,8 +126,8 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 100; i++)
         {
-            int j = Random.Range(4, cardL.Count); // cardL.Count
-            int k = Random.Range(4, cardL.Count);
+            int j = Random.Range(12, cardL.Count); // cardL.Count
+            int k = Random.Range(12, cardL.Count);
             GameObject Save = cardL[j];
             cardL[j] = cardL[k];
             cardL[k] = Save;

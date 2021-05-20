@@ -88,6 +88,8 @@ public class Effect : MonoBehaviour
         {
             ins(cardA, cards[0]);
             ins(cardB, cards[1]);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 2).Rotate(0, 179, 0);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 1).Rotate(0, 179, 0);
         }
 
         if (eftType == 4)
@@ -105,6 +107,7 @@ public class Effect : MonoBehaviour
             gameObject.transform.GetChild(gameObject.transform.childCount - 3).Rotate(-130, 0, 0);
             gameObject.transform.GetChild(gameObject.transform.childCount - 2).Rotate(-130, 0, 0);
             gameObject.transform.GetChild(gameObject.transform.childCount - 1).Rotate(-130, 0, 0);
+
         }
 
     }
@@ -170,7 +173,7 @@ public class Effect : MonoBehaviour
         card.transform.SetParent(gameObject.transform);
         card.transform.localScale = new Vector3(.008f, .01f);
         card.transform.position = obj2.transform.position;
-        card.transform.eulerAngles = new Vector3(50, 0, 0);
+        card.transform.eulerAngles = new Vector3(40, 0, 0);
     }
     
      
