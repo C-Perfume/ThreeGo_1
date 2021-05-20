@@ -318,16 +318,16 @@ public class Score : MonoBehaviour
 
 
         //고도리
-        States(2, 4, "고도리", 5, gdr);
+        States(2, 4, "고도리", 5, ref gdr);
 
         //홍단
-        States(3, 1, "홍단", 3, r);
+        States(3, 1, "홍단", 3, ref r);
 
         //초단
-        States(3, 13, "초단", 3, g);
+        States(3, 13, "초단", 3, ref g);
 
         //청단
-        States(3, 21, "청단", 3, b);
+        States(3, 21, "청단", 3, ref b);
 
 
         
@@ -402,7 +402,7 @@ public class Score : MonoBehaviour
     }
 
     //고도리, 홍청초
-    public void States(int tY, int childIdx, string prints, int add, int plus)
+    public void States(int tY, int childIdx, string prints, int add, ref int plus)
     {
 
         if (pm.p1FPosL[tY].occupy.Count >= 3)

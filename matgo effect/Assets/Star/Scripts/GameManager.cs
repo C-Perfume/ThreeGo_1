@@ -48,11 +48,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GameStart();
+        eft.PlayBGM(Effect.EFT_TYPE.BGM);
     }
 
     void Update()
     {
-       // if(Input.GetKeyDown(KeyCode.Alpha1)) GameStart();
         
     }
         
@@ -162,10 +162,11 @@ public class GameManager : MonoBehaviour
 
         for (int redo = 0; redo < 2; redo++)// 2번반복
         {
-            
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_ssg);
+
             for (int i = 0; i <= 4; i++)//p1패 분배
             {
-                eft.PlayEFTM(Effect.EFT_TYPE.EFT_ssg);
+                
                 ActioniT(cardL[0], 1 + (i * 0.2f), p1HandPos[i + (redo * 5)].position, .15f);
                 p1HandL.Add(cardL[0]);
                 cardL.RemoveAt(0);
@@ -174,7 +175,7 @@ public class GameManager : MonoBehaviour
 
             for (int i = 0; i <= 3; i++) // 바닥패분배
             {
-                eft.PlayEFTM(Effect.EFT_TYPE.EFT_ssg);
+                //eft.PlayEFTM(Effect.EFT_TYPE.EFT_ssg);
                 ActioniT(cardL[0], i * 0.2f, deckPos[i + (redo * 4)].position, .15f);
                 emptyL[i + (redo * 4)].occupy.Add(cardL[0]);
                 floorL.Add(cardL[0]);
@@ -184,7 +185,7 @@ public class GameManager : MonoBehaviour
 
             for (int i = 0; i <= 4; i++) // p2패분배
             {
-                eft.PlayEFTM(Effect.EFT_TYPE.EFT_ssg);
+                //eft.PlayEFTM(Effect.EFT_TYPE.EFT_ssg);
                 //cardL[0].GetComponent<SpriteRenderer>().sprite = back;
                 ActioniT(cardL[0], 2 + (i * 0.2f), p2HandPos[i + (redo * 5)].position, .15f);
                 p2HandL.Add(cardL[0]);
@@ -315,7 +316,7 @@ public class GameManager : MonoBehaviour
     //카드무빙
     public void ActioniT(GameObject obj, float i, Vector3 pos, float j)
     {
-
+      
         iTween.MoveTo(obj,
                     iTween.Hash(
                     "delay", i,
