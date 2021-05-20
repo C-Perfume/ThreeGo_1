@@ -211,6 +211,9 @@ public class PlayerM : MonoBehaviour
                             eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 2).gameObject,
                             eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 1).gameObject
                             );
+
+                        eft.PlayEFTM(Effect.EFT_TYPE.EFT_shaking);
+
                         //4번 비활성화 후 4번 복제카드 삭제 
                         eft.eftL[4].SetActive(false);
                         Destroy(eft.gameObject.transform.GetChild(eft.gameObject.transform.childCount - 6).gameObject);
@@ -291,7 +294,10 @@ public class PlayerM : MonoBehaviour
                         eft.eftL[2].SetActive(false);
                         sc.result.text = "이겼당!";
                         //스톱 이펙트
-                        eft.PlayEFT(13, gm.zero.gameObject, .05f);
+                        eft.PlayEFT(13,  gameObject, .05f);
+                        eft.PlayEFT(0,  gameObject, .05f, 5);
+                        eft.PlayEFTM(Effect.EFT_TYPE.EFT_Stop);
+                        eft.PlayEFTM(Effect.EFT_TYPE.win);
                         // 최종점수txt
                         eft.PlayEFT(0);
                         reset = true;
@@ -302,9 +308,11 @@ public class PlayerM : MonoBehaviour
                     {
                         eft.eftL[2].SetActive(false);
                         //고 효과
-                        eft.PlayEFT(12, gm.zero.gameObject, .05f);
-                        print(sc.goCnt + "고");
                         sc.goCnt++;
+                        eft.PlayEFT(12,  gameObject, .05f);
+                        eft.PlayEFT(6,  gameObject, .05f, 5);
+                        eft.PlayGo(sc.goCnt - 1);
+                        print(sc.goCnt + "고");
                         sc.goScore = sc.currScore;
                         sc.go.text = "Go : " + sc.goCnt.ToString();
                     }
@@ -337,9 +345,25 @@ public class PlayerM : MonoBehaviour
 
         }
 
+        if (sc.gdr == 1) { eft.PlayEFT(24, gameObject, .1f);
+            eft.PlayEFT(18, gameObject, 0.05f, 5);
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_GDR); sc.gdr = 100;
+        }
+        if (sc.r == 1) { eft.PlayEFT(25, gameObject, .1f);
+            eft.PlayEFT(19, gameObject, 0.05f, 5);
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_hongdan); sc.r = 100;
+        }
+        if (sc.g == 1) { eft.PlayEFT(26,gameObject, .1f);
+            eft.PlayEFT(20, gameObject, 0.05f, 5);
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_chodan); sc.g = 100;
+        }
+        if (sc.b == 1) { eft.PlayEFT(27,gameObject, .1f);
+            eft.PlayEFT(21, gameObject, 0.05f, 5);
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_chongdan); sc.b = 100;
+        }
 
-       
-        if (Input.GetKeyDown(KeyCode.Alpha2)) Reset();
+
+        //if (Input.GetKeyDown(KeyCode.Alpha2)) Reset();
     }
 
     private void Reset()
@@ -442,6 +466,8 @@ public class PlayerM : MonoBehaviour
                     if (tripleC.Count == 3)
                     {
                         eft.PlayEFT(3, gm.emptyL[idx].occupy[0], 0.05f);
+                        eft.PlayEFT(2, gm.emptyL[idx].occupy[0], 0.05f, 5);
+                        eft.PlayEFTM(Effect.EFT_TYPE.EFT_bomb);
                         print("폭탄");
                         bombC++;
                         bombP += 2;
@@ -492,6 +518,8 @@ public class PlayerM : MonoBehaviour
                         shitL.Add(hitObj);
                         print("뻑" + shitL.Count);
                         eft.PlayEFT(6, gm.emptyL[idx].occupy[0], 0.05f);
+                        eft.PlayEFTM(Effect.EFT_TYPE.EFT_shit);
+                        
 
                         StartCoroutine(Move2(p1FPosL, p2FPosL, hitObj));
                     }
@@ -594,6 +622,7 @@ public class PlayerM : MonoBehaviour
                 t = true;
                 print("자뻑");
                 eft.PlayEFT(8, gm.emptyL[idx].occupy[0], 0.1f);
+                eft.PlayEFTM(Effect.EFT_TYPE.EFT_getshit);
 
 
                 doubleC = p2FPosL[0].occupy.FindAll(obj => obj.GetComponent<CardS>().sameS(CardS.CARD_STATUS.TWO_PEE));
@@ -639,6 +668,8 @@ public class PlayerM : MonoBehaviour
             eft.PlayEFT(7, gm.emptyL[idx].occupy[0], 0.05f);
             //상대피 가져오기
             Take();
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_getshit);
+            
         }
 
     }
@@ -715,9 +746,10 @@ public class PlayerM : MonoBehaviour
                 {
                     print("쪽");
                     eft.PlayEFT(9, gm.emptyL[idx].occupy[0], 0.05f);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_kiss);
+                    eft.PlayEFT(4, gm.emptyL[idx].occupy[0], 0.05f, 5);
                     //상대패 가져오기
                     Take();
-
                 }
 
                 //따닥
@@ -726,9 +758,10 @@ public class PlayerM : MonoBehaviour
                 {
                     print("따닥");
                     eft.PlayEFT(10, gm.emptyL[idx].occupy[0], 0.05f);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_kiss2);
+                    eft.PlayEFT(5, gm.emptyL[idx].occupy[0], 0.05f, 5);
                     //상대패 가져오기
                     Take();
-
                 }
 
                 //뻑 먹기 + 자뻑
@@ -799,6 +832,8 @@ public class PlayerM : MonoBehaviour
         {
             print("싹쓸");
             eft.PlayEFT(28, gm.cardL[0], .05f);
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_clean);
+            eft.PlayEFT(22,  gameObject, .1f, 5);
             //상대피 가져오기
             Take();
         }
@@ -852,7 +887,7 @@ public class PlayerM : MonoBehaviour
         {
            obj.transform.position
                 = p1FPosL[0].occupy[p1FPosL[0].occupy.Count - 1].transform.position + Vector3.right * 0.005f;
-
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_take);
             #region
             //gm.ActioniT(
             // p2FPosL[0].occupy[p2FPosL[0].occupy.Count - 1],
@@ -872,8 +907,9 @@ public class PlayerM : MonoBehaviour
             //spd,
             // p1FPosL[0].pos,
             // .2f);
-
-            #endregion
+          
+            #endregion 
+            eft.PlayEFTM(Effect.EFT_TYPE.EFT_take);
         }
 
 

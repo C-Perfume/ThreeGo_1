@@ -56,32 +56,31 @@ public class Effect : MonoBehaviour
     
     public EFT type;
 
-    public enum BGM // 효과음
-    {
-        TitleM,
-        BGM,
-    }
     // EFT 종류
     public enum EFT_TYPE // 효과음
     {
-        TitleM,
-        BGM,
-
+        EFT_bomb,//
+        EFT_shaking,//
+        EFT_shit,//
+        EFT_getshit,//
+        EFT_take,//
+        EFT_kiss,//
+        EFT_kiss2,//
+        EFT_Stop,
+        EFT_G3,
+        EFT_G4,
+        EFT_G5,
+        EFT_GDR,
+        EFT_hongdan,
+        EFT_chodan,
+        EFT_chongdan,
+        EFT_clean,//
         EFT_ssg,//
         EFT_jjak,//
         EFT_tuk,//
-
-        EFT_eatpack,//
-
-        EFT_kiss,//
-        EFT_bomb,//
-        EFT_ddadak,//
-        EFT_shaking,//
-        EFT_pack,//
-        EFT_clean,//
-
-        EFT_takecakd,//
-        EFT_nagari
+        TitleM,
+        BGM,
+        win
     }
 
     public enum Go// 고사운드 
@@ -93,37 +92,39 @@ public class Effect : MonoBehaviour
         EFT_sixgo,//
         EFT_fivego,//
         EFT_sevengo,//
-        EFT_eightgo//
     }
 
-    public enum ETC// 이벤트 사운드 
-    {
-        EFT_godori,
-        EFT_hongdan,
-        EFT_chongdan,
-        EFT_chodan,
-
-        EFT_threegang,
-        EFT_fourgang,
-        EFT_fivegang,
-    }
 
     //EFT 플레이하는 AudioSource
     public AudioSource bgmAudio;
     public AudioSource eftAudio;
     public AudioSource goAudio;
-    public AudioSource eTCAudio;
 
     // eft 파일
     public AudioClip[] efts;
     public AudioClip[] go;
-    public AudioClip[] etc;
 
 
 
     private void Awake()
     {
         instance = this;
+    }
+
+    public void PlayBGM(EFT_TYPE type)
+    {
+        bgmAudio.PlayOneShot(efts[(int)type]);
+    }
+    
+    public void PlayEFTM(EFT_TYPE type)
+    {
+        eftAudio.PlayOneShot(efts[(int)type]);
+    }
+    
+    public void PlayGo(int gocount)
+    {
+        print(gocount + "고");
+        goAudio.PlayOneShot(go[gocount - 1]);
     }
 
     
@@ -144,8 +145,19 @@ public class Effect : MonoBehaviour
         Destroy(eftA, 2);
     }
 
+    //성미 이펙트
+    public void PlayEFT(int eftFn, GameObject obj2, float up, float destroy)
+    {
+        GameObject eftA = Instantiate(eftF[eftFn]);
+        eftA.transform.SetParent(gameObject.transform);
+        //eftA.transform.localScale = new Vector3(.01f, .01f, .01f);
+        eftA.transform.position = obj2.transform.position + Vector3.up * up;
+        eftA.SetActive(true);
+        Destroy(eftA, destroy);
+    }
+
     // 카드 복제용 이펙트 함수 1, 4, 5용
-     public void PlayEFT(int eftType, GameObject cardA, GameObject cardB, GameObject cardC)
+    public void PlayEFT(int eftType, GameObject cardA, GameObject cardB, GameObject cardC)
     {
        
         eftL[eftType].SetActive(true);
@@ -244,26 +256,6 @@ public class Effect : MonoBehaviour
 
 
 
-    public void PlayBGM(BGM type)
-    {
-        bgmAudio.PlayOneShot(efts[(int)type]);
-    }
-    public void PlayEFT(EFT_TYPE type)
-    {
-        eftAudio.PlayOneShot(efts[(int)type]);
-    }
-
-    public void PlayGo(int gocount)
-    {
-        print(gocount + "고");
-        goAudio.PlayOneShot(go[gocount - 1]);
-    }
-
-    public void PlayETC(ETC point)
-    {
-        eTCAudio.PlayOneShot(etc[(int)point]);
-        print(point.ToString());
-    }
     void Start()
     {
     

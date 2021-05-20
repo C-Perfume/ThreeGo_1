@@ -187,7 +187,10 @@ public class Score : MonoBehaviour
 
             //5±¤
             if (pm.p1FPosL[1].occupy.Count >= 5) { i = 15; g5++;  }
-            if (g5 == 1) { eft.PlayEFT(23, gameObject, .05f); }
+            if (g5 == 1) { eft.PlayEFT(23, gameObject, .05f);
+                eft.PlayEFTM(Effect.EFT_TYPE.EFT_G5);
+                eft.PlayEFT(17, gameObject, .05f, 5);
+            }
             
 
             //4±¤ °æ¿ìÀÇ ¼ö
@@ -225,11 +228,26 @@ public class Score : MonoBehaviour
                 }
 
                
-                if (g13811 == 4) { eft.PlayEFT(18, gameObject, .1f); g13811 = 100; }
-                if (g13812 == 4) { eft.PlayEFT(19, gameObject, .1f); g13812 = 100; }
-                if (g131112 == 4) { eft.PlayEFT(20, gameObject, .1f); g131112 = 100; }
-                if (g181112 == 4) { eft.PlayEFT(21, gameObject, .1f); g181112 = 100; }
-                if (g381112 == 4) { eft.PlayEFT(22, gameObject, .1f); g381112 = 100; }
+                if (g13811 == 4) { eft.PlayEFT(18, gameObject, .1f);
+                    eft.PlayEFT(12, gameObject, 0.05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_G4);
+                    g13811 = 100; }
+                if (g13812 == 4) { eft.PlayEFT(19, gameObject, .1f);
+                    eft.PlayEFT(13, gameObject, 0.05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_G4);
+                    g13812 = 100; }
+                if (g131112 == 4) { eft.PlayEFT(20, gameObject, .1f);
+                    eft.PlayEFT(14, gameObject, 0.05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_G4);
+                    g131112 = 100; }
+                if (g181112 == 4) { eft.PlayEFT(21, gameObject, .1f);
+                    eft.PlayEFT(15, gameObject, 0.05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_G4);
+                    g181112 = 100; }
+                if (g381112 == 4) { eft.PlayEFT(22, gameObject, .1f);
+                    eft.PlayEFT(16, gameObject, 0.05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_G4);
+                    g381112 = 100; }
 
             }
 
@@ -261,10 +279,22 @@ public class Score : MonoBehaviour
                     { g1311++; g1811++; g3811++; break; }
                 }
 
-                if (g138 == 4) { eft.PlayEFT(14, gameObject, .1f); g138 = 100; }
-                if (g1311 == 4) { eft.PlayEFT(15, gameObject, .1f); g1311 = 100; }
-                if (g1811 == 4) { eft.PlayEFT(16, gameObject, .1f); g1811 = 100; }
-                if (g3811 == 4) { eft.PlayEFT(17, gameObject, .1f); g3811 = 100; }
+                if (g138 == 4) { eft.PlayEFT(14, gameObject, .1f);
+                    eft.PlayEFT(8, gameObject, 0.05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_G3);
+                    g138 = 100; }
+                if (g1311 == 4) { eft.PlayEFT(15, gameObject, .1f);
+                    eft.PlayEFT(9, gameObject, 0.05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_G3);
+                    g1311 = 100; }
+                if (g1811 == 4) { eft.PlayEFT(16, gameObject, .1f);
+                    eft.PlayEFT(10, gameObject, 0.05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_G3);
+                    g1811 = 100; }
+                if (g3811 == 4) { eft.PlayEFT(17, gameObject, .1f);
+                    eft.PlayEFT(11, gameObject, 0.05f, 5);
+                    eft.PlayEFTM(Effect.EFT_TYPE.EFT_G3);
+                    g3811 = 100; }
 
             }
 
@@ -392,10 +422,7 @@ public class Score : MonoBehaviour
                     plus++;
                 }
 
-                if (gdr == 1) { eft.PlayEFT(24, gm.zero.gameObject, .1f); }
-                if (r == 1) { eft.PlayEFT(25, gm.zero.gameObject, .1f); }
-                if (g == 1) { eft.PlayEFT(26, gm.zero.gameObject, .1f); }
-                if (b == 1) { eft.PlayEFT(27, gm.zero.gameObject, .1f); }
+               
             }
 
 
@@ -491,6 +518,8 @@ public class Score : MonoBehaviour
             print("3»¶");
             result.text = "ÀÌ°å´ç!";
             eft.PlayEFT(0);
+            eft.PlayEFT(0, gameObject, .05f, 5);
+            eft.PlayEFTM(Effect.EFT_TYPE.win);
             pm.reset = true;
             s3 = " »ï¿¬»¶";
         }
