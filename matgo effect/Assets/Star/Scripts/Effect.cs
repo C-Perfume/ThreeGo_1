@@ -151,7 +151,7 @@ public class Effect : MonoBehaviour
     {
         GameObject eftA = Instantiate(eftF[eftFn]);
         eftA.transform.SetParent(gameObject.transform);
-        eftA.transform.localScale = new Vector3(.004f, .004f, .004f);
+       if(eftFn != 18) eftA.transform.localScale = new Vector3(.004f, .004f, .004f);
         eftA.transform.position = obj2.transform.position + Vector3.up * up;
         eftA.SetActive(true);
         Destroy(eftA, destroy);
@@ -167,8 +167,8 @@ public class Effect : MonoBehaviour
         {
             ins(cardA, cards[0]);
             ins(cardB, cards[1]);
-            gameObject.transform.GetChild(gameObject.transform.childCount - 2).Rotate(0, 179, 0);
-            gameObject.transform.GetChild(gameObject.transform.childCount - 1).Rotate(0, 179, 0);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 2).Rotate(0, 175, 0);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 1).Rotate(0, 175, 0);
         }
 
         if (eftType == 4)
@@ -176,6 +176,9 @@ public class Effect : MonoBehaviour
             ins(cardA, cards[2]);
             ins(cardB, cards[3]);
             ins(cardC, cards[4]);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 3).Rotate(0, 175, 0);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 2).Rotate(0, 175, 0);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 1).Rotate(0, 175, 0);
         }
 
         if (eftType == 5)

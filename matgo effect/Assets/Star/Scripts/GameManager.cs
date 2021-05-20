@@ -128,30 +128,30 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 100; i++)
         {
-            int j = Random.Range(12, cardL.Count); // cardL.Count
-            int k = Random.Range(12, cardL.Count);
+            int j = Random.Range(0, cardL.Count); // cardL.Count
+            int k = Random.Range(0, cardL.Count);
             GameObject Save = cardL[j];
             cardL[j] = cardL[k];
             cardL[k] = Save;
         }
 
-        //µû´Ú¼³Á¤
-        GameObject t = cardL[1];
-        cardL[1] = cardL[32];
-        cardL[32] = t;
+        ////µû´Ú¼³Á¤
+        //GameObject t = cardL[1];
+        //cardL[1] = cardL[32];
+        //cardL[32] = t;
 
 
-        GameObject a = cardL[2];
-        cardL[2] = cardL[8];
-        cardL[8] = a;
+        //GameObject a = cardL[2];
+        //cardL[2] = cardL[8];
+        //cardL[8] = a;
 
         //GameObject b = cardL[3];
         //cardL[3] = cardL[6];
         //cardL[6] = b;
 
-        GameObject c = cardL[5];
-        cardL[5] = cardL[33];
-        cardL[33] = c;
+        //GameObject c = cardL[5];
+        //cardL[5] = cardL[33];
+        //cardL[33] = c;
 
     }
 
