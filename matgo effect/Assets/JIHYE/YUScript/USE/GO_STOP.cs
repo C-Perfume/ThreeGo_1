@@ -56,34 +56,34 @@ public class GO_STOP : MonoBehaviour
     {
         int scoreLine = 0;
 
+
+        if (index == 0)
+        {
+            goCount = ScoreUI.instance.go1count;
+            score = GoStopRule.instance.p1_Score;
+
+            yealCount = yeal1_count;
+            pee_score = pee1_score;
+            kwang_score = kwang1_score;
+        }
+        else if (index == 1)
+        {
+            goCount = ScoreUI.instance.go2count;
+            score = GoStopRule.instance.p2_Score;
+
+            yealCount = yeal2_count;
+            pee_score = pee2_score;
+            kwang_score = kwang2_score;
+        }
+
         if (!gostop)
         {
             return;
         }
         else
+        { 
+        if (Input.GetMouseButtonDown(0))
         {
-            if (index == 0)
-            {
-                goCount = ScoreUI.instance.go1count;
-                score = GoStopRule.instance.p1_Score;
-
-                yealCount = yeal1_count;
-                pee_score = pee1_score;
-                kwang_score = kwang1_score;
-            }
-            else if (index == 1)
-            {
-                goCount = ScoreUI.instance.go2count;
-                score = GoStopRule.instance.p2_Score;
-
-                yealCount = yeal2_count;
-                pee_score = pee2_score;
-                kwang_score = kwang2_score;
-            }
-
-            canvas.SetActive(true);
-            if (Input.GetMouseButtonDown(0))
-            { 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -100,8 +100,8 @@ public class GO_STOP : MonoBehaviour
                         canvas.SetActive(false);
                         ScoreUI.instance.GoCount(goCount, index);
                         SoundManager.instance.PlayGo(goCount);
-                            gostop = false;
-                        }
+                        gostop = false;
+                    }
                     else if (obj.name.Contains("B"))
                     {
                         print("스돕");
@@ -128,16 +128,17 @@ public class GO_STOP : MonoBehaviour
 
                         score_text.text = " ( " + score.ToString() + "+" + goCount.ToString() + ") x "
                             + dou.ToString() + " = " + scoreLine.ToString();
-                            gostop = false;
+                        gostop = false;
                     }
                 }
-               }
+            }
 
-              }
+        }
 
+        }
 
-
-         }
+    
+         
 
 
      }
@@ -147,12 +148,23 @@ public class GO_STOP : MonoBehaviour
         this.index = index;
         otherlist = other;
 
+        if (index == 0)
+        {
+            score = GoStopRule.instance.p1_Score;
+        }
+        else if (index == 1)
+        {
+            score = GoStopRule.instance.p2_Score;
+        }
+
+
         //7점 이상이거나 이전 점수 보다 높을떄 
         if (score > 6)
         {
             if (score > preScore)
             {
                 gostop = true;
+                canvas.SetActive(true);
             }
         }
     }
