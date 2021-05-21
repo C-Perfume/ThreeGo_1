@@ -57,8 +57,8 @@ namespace TMPro.Examples
             else
                 Application.targetFrameRate = -1;
 
-            if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
-                Input.simulateMouseWithTouches = false;
+            //if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
+                //Input.simulateMouseWithTouches = false;
 
             cameraTransform = transform;
             previousSmoothing = MovementSmoothing;
@@ -125,6 +125,7 @@ namespace TMPro.Examples
 
         void GetPlayerInput()
         {
+            return;
             moveVector = Vector3.zero;
 
             // Check Mouse Wheel Input prior to Shift Key so we can apply multiplier on Shift for Scrolling

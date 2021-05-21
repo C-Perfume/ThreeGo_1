@@ -13,6 +13,8 @@ public class LoadS : MonoBehaviour
     public Image loadingBg;
     int fadeDir = 1;
 
+    public bool canClick = true;
+
     private void Awake()
     {
         if (instance == null)
@@ -32,41 +34,6 @@ public class LoadS : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-
-//#if UNITY_EDITOR
-  //          if (!EventSystem.current.IsPointerOverGameObject())
-//#else
-  //          if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-//#endif
-  //          {
-
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    GameObject hitobj = hit.transform.gameObject;
-
-                    if (hitobj.name.Contains("pivot"))
-                    {
-
-                        if (hitobj.name.Contains("A"))
-                        {
-                            StartCoroutine(ChangeScene("StarMatgo"));
-                        }
-                        else
-                        {
-                            StartCoroutine(ChangeScene("YUGameScene"));
-                        }
-
-    //                }
-                }
-            }
-        }
-
         if (loading.activeSelf == true)
         {
             Color bgColor = loadingBg.color;
@@ -77,35 +44,89 @@ public class LoadS : MonoBehaviour
                 loading.SetActive(false);
             }
         }
-
-         IEnumerator ChangeScene(string sceneName)
+        return;
+        if (canClick == true && Input.GetMouseButtonDown(0))
         {
-            loading.SetActive(true);
-            fadeDir = 1;
-            // 씬을 로드 한다(비동기 로드)
-            AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
+            //canClick = false;
+            //if (Input.mousePosition.x < Screen.width * 0.5f)
+            //{
+            //    StartCoroutine(ChangeScene("StarMatgo"));
+            //}
+            //else
+            //{
+            //    StartCoroutine(ChangeScene("YUGameScene"));
+            //}
+            //#if UNITY_EDITOR
+            //          if (!EventSystem.current.IsPointerOverGameObject())
+            //#else
+            //          if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            //#endif
+            //          {
 
-            ao.allowSceneActivation = false;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            // 로드가 완료가 되었다면                
-            while (ao.isDone == false)
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
             {
-                // 진행상황 표시
-                print(ao.progress + "");
+                GameObject hitobj = hit.transform.gameObject;
 
-                if (ao.progress >= 0.9f)
+                if (hitobj.name.Contains("pivot"))
                 {
-                    yield return new WaitForSeconds(2);
-                    ao.allowSceneActivation = true;
+
+                    if (hitobj.name.Contains("A"))
+                    {
+                        StartCoroutine(ChangeScene("StarMatgo"));
+                    }
+                    else
+                    {
+                        StartCoroutine(ChangeScene("YUGameScene"));
+                    }
+
+                    //                }
                 }
-
-                yield return null;
             }
-
-            fadeDir = -1;
-            print(ao.progress);
         }
 
+        
     }
 
+
+    public void OnClickL()
+    {
+        StartCoroutine(ChangeScene("StarMatgo"));
+    }
+
+    public void OnClickR()
+    {
+        StartCoroutine(ChangeScene("YUGameScene"));
+    }
+
+    IEnumerator ChangeScene(string sceneName)
+    {
+        loading.SetActive(true);
+        fadeDir = 1;
+        // 씬을 로드 한다(비동기 로드)
+        AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
+
+        ao.allowSceneActivation = false;
+
+        // 로드가 완료가 되었다면                
+        while (ao.isDone == false)
+        {
+            // 진행상황 표시
+            print(ao.progress + "");
+
+            if (ao.progress >= 0.9f)
+            {
+                yield return new WaitForSeconds(2);
+                ao.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
+
+        fadeDir = -1;
+        print(ao.progress);
+    }
 }
