@@ -84,6 +84,8 @@ public class StartRule : MonoBehaviour
     }
 
     public void Retry() {
+        LoadS.instance.canClick = true;
+
         Time.timeScale = 1;
         SceneManager.LoadScene("title");
     }
