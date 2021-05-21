@@ -41,6 +41,9 @@ public class GO_STOP : MonoBehaviour
     int pee_score = 0;
     List<GameObject> otherlist = new List<GameObject>();
 
+
+    public GameObject GOGO;
+    public Transform POS;
     private void Awake()
     {
         instance = this;
@@ -94,6 +97,8 @@ public class GO_STOP : MonoBehaviour
                 {
                     if (obj.name.Contains("A"))
                     {
+                         GameObject gooo = Instantiate(GOGO);
+                            gooo.transform.position = POS.position;
                         print("°í Çß´Ù");
                         preScore = score;
                         goCount++;

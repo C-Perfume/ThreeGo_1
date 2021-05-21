@@ -33,6 +33,10 @@ public class GoStopRule : MonoBehaviour
 
     public GameObject chosen;
 
+    public GameObject kiss;
+    public GameObject bombom;
+    public Transform pos;
+
 
     private void Awake()
     {
@@ -158,7 +162,6 @@ public class GoStopRule : MonoBehaviour
                     empty_floor_slot.Add(floor_slot[i]);
                     floor_slot.RemoveAt(i);
                 }
-
             }
         }
         //원래의 리스트에서 바뀐리스트로 바꿔 준다.
@@ -552,6 +555,9 @@ public class GoStopRule : MonoBehaviour
         yield return new WaitForSeconds(1);
         Move_to_pos(bomb[2], bomb[1].transform.position + addpos);
         //폭탄이요
+        GameObject boo = Instantiate(bombom);
+        boo.transform.position = pos.position;
+        SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_bomb);
         print("폭탄이요~!");
         yield return new WaitForSeconds(1);
         
@@ -701,6 +707,8 @@ public class GoStopRule : MonoBehaviour
                     //덱카드 위치 내가 낸 카드 위로 움직임.
                     Move_to_pos(deck, player.transform.position + addpos);
                     //==//     //쪽이벤트 발생
+                    GameObject ki = Instantiate(kiss);
+                    ki.transform.position = pos.position;
                     //EventManager.instance.PlayerEvent(EventManager.Play_Event.kiss);
                     print("쪽~~~");//나중에 자리선정하기 
                     SoundManager.instance.PlayEFT(SoundManager.EFG_TYPE.EFT_kiss);
